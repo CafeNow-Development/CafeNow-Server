@@ -24,10 +24,4 @@ public class TestController {
         return "home";
     }
 
-    @ApiOperation(value = "테스트", notes = "테스트 home 출력")
-    @GetMapping("/test2")
-    public SingleResult<User> UserTest() {
-        User user = new User(1L, "llmm030506@gmail.com", "김상현");
-        return responseService.getSingleResult(user);
-    }
 }
