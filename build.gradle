@@ -45,6 +45,9 @@ dependencies {
     implementation 'io.springfox:springfox-swagger-ui:2.9.1'
     implementation 'io.swagger:swagger-annotations:1.6.2'
     implementation 'io.swagger:swagger-models:1.5.22'
+
+    // *** 다국어 처리를 위한 yaml-resource-bundle *** //
+    implementation 'net.rakugakibox.util:yaml-resource-bundle:1.2'
 }
 
 test {

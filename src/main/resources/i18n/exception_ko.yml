@@ -1,0 +1,4 @@
+# exception_ko.yml
+unKnown:
+  code: "-9999"
+  msg: "알수 없는 오류가 발생하였습니다."
