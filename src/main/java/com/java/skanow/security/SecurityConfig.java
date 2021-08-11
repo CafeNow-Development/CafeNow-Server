@@ -1,5 +1,7 @@
 package com.java.skanow.security;
 
+import com.java.skanow.advice.handler.CustomAccessDeniedHandler;
+import com.java.skanow.advice.handler.CustomAuthenticationEntryPoint;
 import com.java.skanow.security.jwt.JwtTokenFilterConfigurer;
 import com.java.skanow.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +38,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/*/signin").permitAll()
                 .antMatchers("/*/signup").permitAll()
                 .anyRequest().hasRole("CLIENT");
+
+        // ExceptionHandling
+        http.exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint());
+        http.exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler());
 
         // Apply JWT
         http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
