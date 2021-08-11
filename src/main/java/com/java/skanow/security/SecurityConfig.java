@@ -36,7 +36,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/*/signin").permitAll()
+                .antMatchers("/*/signin/**").permitAll()
                 .antMatchers("/*/signup").permitAll()
+                .antMatchers("/*/signup/**").permitAll()
+                .antMatchers("/social/**").permitAll()
                 .anyRequest().hasRole("CLIENT");
 
         // ExceptionHandling
