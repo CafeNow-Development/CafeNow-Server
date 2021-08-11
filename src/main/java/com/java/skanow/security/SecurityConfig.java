@@ -43,6 +43,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint());
         http.exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler());
 
+        // 만약 로그인을 진행해주세요.라는 멘트가 나오면
+        //프론트는 Refresh 토큰이 존재하는지 확인한다.
+        // 1. 있다면 다시 토큰을 발급해야하고
+        // 2. 없다면 새로 로그인을 진행해야한다.
+
         // Apply JWT
         http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
     }
