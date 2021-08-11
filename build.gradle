@@ -28,6 +28,7 @@ dependencies {
 
     // *** lombok *** //
     implementation 'org.projectlombok:lombok'
+    implementation 'junit:junit:4.13.1'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
