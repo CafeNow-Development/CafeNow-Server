@@ -1,5 +1,6 @@
 package com.java.skanow.advice;
 
+import com.java.skanow.advice.exception.CEmailSigninFailedException;
 import com.java.skanow.advice.exception.CUserNotFoundException;
 import com.java.skanow.util.response.domain.CommonResult;
 import com.java.skanow.util.response.service.ResponseService;
@@ -32,6 +33,12 @@ public class ExceptionAdvice {
     protected CommonResult userNotFoundException(HttpServletRequest request, CUserNotFoundException e) {
         // 예외 처리의 메시지를 MessageSource에서 가져오도록 수정
         return responseService.getFailResult(Integer.parseInt(getMessage("userNotFound.code")), getMessage("userNotFound.msg"));
+    }
+
+    @ExceptionHandler(CEmailSigninFailedException.class)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    protected CommonResult emailSigninFailed(HttpServletRequest request, CEmailSigninFailedException e) {
+        return responseService.getFailResult(Integer.parseInt(getMessage("emailSigninFailed.code")), getMessage("emailSigninFailed.msg"));
     }
 
     // code정보에 해당하는 메시지를 조회합니다.

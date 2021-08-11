@@ -8,12 +8,15 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import com.java.skanow.kakao_login.domain.enumType.Role;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static javax.persistence.EnumType.STRING;
 
 @Builder
 @Entity
@@ -36,13 +39,18 @@ public class User implements UserDetails {
     @Column(nullable = false, length = 100)
     private String name;
 
+    @Enumerated(STRING) @Column(name = "role")
     @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "role", joinColumns = @JoinColumn(name = "user_id"))
     @Builder.Default
-    private List<String> roles = new ArrayList<>();
+    private List<Role> roles = new ArrayList<>();
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        // List<Role> 형태를 Stream을 사용하여 roles 원소의 값을 String으로 바꿔주는 Enum.name()을 이용하여 List<String>형태로 변환(GrantedAuthority의 생성자는 String 타입을 받기 때문)
+        List<String> rolesConvertString = this.roles.stream().map(Enum::name).collect(Collectors.toList());
+        return rolesConvertString.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

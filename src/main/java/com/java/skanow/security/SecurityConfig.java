@@ -34,8 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/*/signin").permitAll()
-                .antMatchers("").permitAll()
-                .antMatchers("").authenticated() // 로그인 된 유저는 모두 접근을 허용함
+                .antMatchers("/*/signup").permitAll()
                 .anyRequest().hasRole("CLIENT");
 
         // Apply JWT
