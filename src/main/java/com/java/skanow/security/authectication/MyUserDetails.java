@@ -14,7 +14,7 @@ public class MyUserDetails implements UserDetailsService {
     private final UserJpaRepository userJpaRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String userPk) {
-        return userJpaRepository.findById(Long.valueOf(userPk)).orElseThrow(CUserNotFoundException::new);
+    public UserDetails loadUserByUsername(String email) {
+        return userJpaRepository.findByEmail(email).orElseThrow(CUserNotFoundException::new);
     }
 }
