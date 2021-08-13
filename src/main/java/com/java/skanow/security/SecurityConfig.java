@@ -17,7 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -40,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/*/signup").permitAll()
                 .antMatchers("/*/signup/**").permitAll()
                 .antMatchers("/social/**").permitAll()
+                .antMatchers("/*/kakao-info-token").permitAll()
                 .anyRequest().hasRole("CLIENT");
 
         // ExceptionHandling

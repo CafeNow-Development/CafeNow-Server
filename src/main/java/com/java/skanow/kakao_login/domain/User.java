@@ -27,10 +27,10 @@ import static javax.persistence.EnumType.STRING;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long msrl;
+    private long adminIdx;
 
     @Column(nullable = false, unique = true, length = 30)
-    private String uid;
+    private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(length = 100)
@@ -41,6 +41,26 @@ public class User implements UserDetails {
 
     @Column(length = 100)
     private String provider;
+
+    @Column(length = 500)
+    private String profile_image_url;
+
+    @Column(length = 500)
+    private String thumbnail_image_url;
+
+    /*
+        이메일 유효 여부
+        turn : 유효한 이메일
+        false : 이메일이 다른 카카오계정에 사용돼 만료
+     */
+    private Boolean is_email_valid;
+
+    /*
+        이메일 인증 여부
+        turn : 인증된 이메일
+        false : 인증되지 않은 이메일
+     */
+    private Boolean is_email_verified;
 
     @Enumerated(STRING) @Column(name = "role")
     @ElementCollection(fetch = FetchType.EAGER)
@@ -59,7 +79,7 @@ public class User implements UserDetails {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public String getUsername() {
-        return this.uid;
+        return this.email;
     }
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
