@@ -1,8 +1,5 @@
 package com.java.skanow.kakao_login.controller;
 
-import com.java.skanow.kakao_login.domain.User;
-import com.java.skanow.util.response.domain.SingleResult;
-import com.java.skanow.util.response.service.ResponseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

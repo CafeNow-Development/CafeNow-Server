@@ -2,7 +2,7 @@ package com.java.skanow.kakao_login.controller;
 
 import com.java.skanow.advice.exception.CUserExistException;
 import com.java.skanow.advice.exception.CUserNotFoundException;
-import com.java.skanow.kakao_login.domain.User;
+import com.java.skanow.kakao_login.domain.Admin;
 import com.java.skanow.kakao_login.domain.enumType.Role;
 import com.java.skanow.kakao_login.dto.KakaoProfile;
 import com.java.skanow.kakao_login.repository.UserJpaRepository;
@@ -15,7 +15,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -39,7 +38,7 @@ public class KakaoLoginController {
             @ApiParam(value = "소셜 access_token", required = true) @RequestParam String accessToken) {
 
         KakaoProfile profile = kakaoService.getKakaoProfile(accessToken);
-        User user = userJpaRepository.findByEmailAndProvider(profile.getEmail(), provider).orElseThrow(CUserNotFoundException::new);
+        Admin user = userJpaRepository.findByEmailAndProvider(profile.getEmail(), provider).orElseThrow(CUserNotFoundException::new);
         return responseService.getSingleResult(jwtTokenProvider.createToken(user.getEmail(), user.getRoles()));
     }
 
@@ -49,11 +48,11 @@ public class KakaoLoginController {
                                        @ApiParam(value = "소셜 access_token", required = true) @RequestParam String accessToken) {
 
         KakaoProfile profile = kakaoService.getKakaoProfile(accessToken);
-        Optional<User> user = userJpaRepository.findByEmailAndProvider(profile.getEmail(), provider);
+        Optional<Admin> user = userJpaRepository.findByEmailAndProvider(profile.getEmail(), provider);
         if(user.isPresent())
             throw new CUserExistException();
 
-        userJpaRepository.save(User.builder()
+        userJpaRepository.save(Admin.builder()
                 .email(profile.getEmail())
                 .provider(provider)
                 .name(profile.getNickName())
