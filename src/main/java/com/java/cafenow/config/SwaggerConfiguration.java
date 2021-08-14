@@ -36,13 +36,13 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
     @Bean
     public Docket apiTest() {
         version = "v1";
-        title = "SkaNow API" + version;
+        title = "CafeNow API" + version;
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .useDefaultResponseMessages(false)
                 .groupName(version)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.java.skanow.kakao_login.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.java.cafenow.kakao_login.controller"))
                 .paths(PathSelectors.ant("/**"))
                 .build()
                 .apiInfo(apiInfo(title, version))
