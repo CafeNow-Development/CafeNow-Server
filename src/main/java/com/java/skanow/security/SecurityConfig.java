@@ -17,7 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -36,8 +36,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/*/signin").permitAll()
+                .antMatchers("/*/signin/**").permitAll()
                 .antMatchers("/*/signup").permitAll()
-                .anyRequest().hasRole("CLIENT");
+                .antMatchers("/*/signup/**").permitAll()
+                .antMatchers("/social/**").permitAll()
+                .antMatchers("/*/kakao-info-token").permitAll()
+                .antMatchers("/*/admin/**").hasRole("ADMIN_PERMIT")
+                .anyRequest().hasAnyRole("CLIENT", "ADMIN_NOT_PERMIT", "ADMIN_PERMIT");
+                //.anyRequest().hasRole("CLIENT");
+
 
         // ExceptionHandling
         http.exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint());

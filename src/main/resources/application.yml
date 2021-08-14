@@ -21,3 +21,17 @@ spring:
     encoding: UTF-8
   jwt:
     secret: gwooleldisangyun!!@
+  social:
+    kakao:
+      client_id: 475eeac2ef5afa6af598830e6720ecc6 # 앱생성시 받은 REST API 키
+      redirect: /social/login/kakao
+      url:
+        login: https://kauth.kakao.com/oauth/authorize
+        token: https://kauth.kakao.com/oauth/token
+        profile: https://kapi.kakao.com/v2/user/me
+  url:
+    base: http://localhost:65000
+
+  freemarker:
+    template-loader-path: classpath:/templates
+    suffix: .ftl

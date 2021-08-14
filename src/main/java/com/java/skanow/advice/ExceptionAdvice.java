@@ -1,8 +1,6 @@
 package com.java.skanow.advice;
 
-import com.java.skanow.advice.exception.CAuthenticationEntryPointException;
-import com.java.skanow.advice.exception.CEmailSigninFailedException;
-import com.java.skanow.advice.exception.CUserNotFoundException;
+import com.java.skanow.advice.exception.*;
 import com.java.skanow.util.response.domain.CommonResult;
 import com.java.skanow.util.response.service.ResponseService;
 import lombok.RequiredArgsConstructor;
@@ -60,5 +58,17 @@ public class ExceptionAdvice {
     @ExceptionHandler(AccessDeniedException.class)
     public CommonResult AccessDeniedException(HttpServletRequest request, AccessDeniedException e) {
         return responseService.getFailResult(Integer.parseInt(getMessage("accessDenied.code")), getMessage("accessDenied.msg"));
+    }
+
+    @ExceptionHandler(CCommunicationException.class)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public CommonResult communicationException(HttpServletRequest request, CCommunicationException e) {
+        return responseService.getFailResult(Integer.parseInt(getMessage("communicationError.code")), getMessage("communicationError.msg"));
+    }
+
+    @ExceptionHandler(CUserExistException.class)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public CommonResult communicationException(HttpServletRequest request, CUserExistException e) {
+        return responseService.getFailResult(Integer.valueOf(getMessage("existingUser.code")), getMessage("existingUser.msg"));
     }
 }
