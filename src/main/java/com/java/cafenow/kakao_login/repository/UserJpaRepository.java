@@ -1,0 +1,11 @@
+package com.java.cafenow.kakao_login.repository;
+
+import com.java.cafenow.kakao_login.domain.Admin;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface UserJpaRepository extends JpaRepository<Admin, Long> {
+    Optional<Admin> findByEmail(String email);
+    Optional<Admin> findByEmailAndProvider(String email, String provider);
+}
