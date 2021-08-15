@@ -1,10 +1,13 @@
 package com.java.cafenow.store.controller;
 
+import com.java.cafenow.store.domain.Store;
 import com.java.cafenow.store.dto.FindAllStoreResDto;
+import com.java.cafenow.store.dto.FindStoreByIdxResDto;
 import com.java.cafenow.store.dto.SaveStoreReqDto;
 import com.java.cafenow.store.service.StoreService;
 import com.java.cafenow.util.response.domain.CommonResult;
 import com.java.cafenow.util.response.domain.ListResult;
+import com.java.cafenow.util.response.domain.SingleResult;
 import com.java.cafenow.util.response.service.ResponseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -44,5 +47,16 @@ public class StoreController {
     public ListResult<FindAllStoreResDto> findAllStore() {
         List<FindAllStoreResDto> findAllStoreResDtoList = storeService.findAllStore();
         return responseService.getListResult(findAllStoreResDtoList);
+    }
+
+    @ApiOperation(value = "매장 등록 단일 신청 조회", notes = "개발자가 매장 등록 신청을 단일 조회한다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @ResponseBody
+    @GetMapping("/store/{storeidx}")
+    public SingleResult<FindStoreByIdxResDto> findStoreByIdx(@PathVariable Long storeidx) {
+        FindStoreByIdxResDto findSingleStore = storeService.findSingleStore(storeidx);
+        return responseService.getSingleResult(findSingleStore);
     }
 }

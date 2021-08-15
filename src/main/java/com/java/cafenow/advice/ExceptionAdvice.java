@@ -33,20 +33,18 @@ public class ExceptionAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.ACCEPTED)
     protected CommonResult defaultException(HttpServletRequest request, Exception e) {
-        // 예외 처리의 메시지를 MessageSource에서 가져오도록 수정
-        return responseService.getFailResult(Integer.parseInt(getMessage("unKnown.code")), getMessage("unKnown.msg"));
+        return responseService.getFailResult(Integer.parseInt(getMessage("unKnown.code")), e.getMessage());
     }
 
     @ExceptionHandler(CAdminNotFoundException.class)
     @ResponseStatus(HttpStatus.ACCEPTED)
     protected CommonResult userNotFoundException(HttpServletRequest request, CAdminNotFoundException e) {
-        // 예외 처리의 메시지를 MessageSource에서 가져오도록 수정
         return responseService.getFailResult(Integer.parseInt(getMessage("userNotFound.code")), getMessage("userNotFound.msg"));
     }
 
-    @ExceptionHandler(CEmailSigninFailedException.class)
+    @ExceptionHandler(CEmailSignInFailedException.class)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    protected CommonResult emailSigninFailed(HttpServletRequest request, CEmailSigninFailedException e) {
+    protected CommonResult emailSigninFailed(HttpServletRequest request, CEmailSignInFailedException e) {
         return responseService.getFailResult(Integer.parseInt(getMessage("emailSigninFailed.code")), getMessage("emailSigninFailed.msg"));
     }
 
@@ -69,6 +67,18 @@ public class ExceptionAdvice {
     @ExceptionHandler(CAdminExistException.class)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public CommonResult communicationException(HttpServletRequest request, CAdminExistException e) {
-        return responseService.getFailResult(Integer.valueOf(getMessage("existingUser.code")), getMessage("existingUser.msg"));
+        return responseService.getFailResult(Integer.parseInt(getMessage("existingUser.code")), getMessage("existingUser.msg"));
+    }
+
+    @ExceptionHandler(CStoreNotFoundException.class)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public CommonResult CStoreNotFoundException(HttpServletRequest request, CStoreNotFoundException e) {
+        return responseService.getFailResult(Integer.parseInt(getMessage("CStoreNotFoundException.code")), getMessage("CStoreNotFoundException.msg"));
+    }
+
+    @ExceptionHandler(CDuplicationBusinessNumber.class)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public CommonResult CDuplicationBusinessNumber(HttpServletRequest request, CDuplicationBusinessNumber e) {
+        return responseService.getFailResult(Integer.parseInt(getMessage("CDuplicationBusinessNumber.code")), getMessage("CDuplicationBusinessNumber.msg"));
     }
 }
