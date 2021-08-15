@@ -1,6 +1,7 @@
 package com.java.cafenow.kakao_login.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.java.cafenow.store.domain.Store;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,11 +12,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.java.cafenow.kakao_login.domain.enumType.Role;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
 
 @Builder

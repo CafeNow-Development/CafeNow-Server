@@ -1,7 +1,7 @@
 package com.java.cafenow.security.authectication;
 
-import com.java.cafenow.advice.exception.CUserNotFoundException;
-import com.java.cafenow.kakao_login.repository.UserJpaRepository;
+import com.java.cafenow.advice.exception.CAdminNotFoundException;
+import com.java.cafenow.kakao_login.repository.AdminJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MyUserDetails implements UserDetailsService {
 
-    private final UserJpaRepository userJpaRepository;
+    private final AdminJpaRepository userJpaRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) {
-        return userJpaRepository.findByEmail(email).orElseThrow(CUserNotFoundException::new);
+        return userJpaRepository.findByEmail(email).orElseThrow(CAdminNotFoundException::new);
     }
 }

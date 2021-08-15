@@ -37,9 +37,9 @@ public class ExceptionAdvice {
         return responseService.getFailResult(Integer.parseInt(getMessage("unKnown.code")), getMessage("unKnown.msg"));
     }
 
-    @ExceptionHandler(CUserNotFoundException.class)
+    @ExceptionHandler(CAdminNotFoundException.class)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    protected CommonResult userNotFoundException(HttpServletRequest request, CUserNotFoundException e) {
+    protected CommonResult userNotFoundException(HttpServletRequest request, CAdminNotFoundException e) {
         // 예외 처리의 메시지를 MessageSource에서 가져오도록 수정
         return responseService.getFailResult(Integer.parseInt(getMessage("userNotFound.code")), getMessage("userNotFound.msg"));
     }
@@ -66,9 +66,9 @@ public class ExceptionAdvice {
         return responseService.getFailResult(Integer.parseInt(getMessage("communicationError.code")), getMessage("communicationError.msg"));
     }
 
-    @ExceptionHandler(CUserExistException.class)
+    @ExceptionHandler(CAdminExistException.class)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public CommonResult communicationException(HttpServletRequest request, CUserExistException e) {
+    public CommonResult communicationException(HttpServletRequest request, CAdminExistException e) {
         return responseService.getFailResult(Integer.valueOf(getMessage("existingUser.code")), getMessage("existingUser.msg"));
     }
 }

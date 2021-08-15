@@ -1,11 +1,11 @@
 package com.java.cafenow.kakao_login.controller;
 
-import com.java.cafenow.advice.exception.CUserExistException;
-import com.java.cafenow.advice.exception.CUserNotFoundException;
+import com.java.cafenow.advice.exception.CAdminExistException;
+import com.java.cafenow.advice.exception.CAdminNotFoundException;
 import com.java.cafenow.kakao_login.domain.Admin;
 import com.java.cafenow.kakao_login.domain.enumType.Role;
 import com.java.cafenow.kakao_login.dto.KakaoProfile;
-import com.java.cafenow.kakao_login.repository.UserJpaRepository;
+import com.java.cafenow.kakao_login.repository.AdminJpaRepository;
 import com.java.cafenow.kakao_login.service.KakaoService;
 import com.java.cafenow.security.jwt.JwtTokenProvider;
 import com.java.cafenow.util.response.domain.CommonResult;
@@ -26,7 +26,7 @@ import java.util.Optional;
 @RequestMapping(value = "/v1")
 public class KakaoLoginController {
 
-    private final UserJpaRepository userJpaRepository;
+    private final AdminJpaRepository userJpaRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final ResponseService responseService;
     private final KakaoService kakaoService;
@@ -38,7 +38,7 @@ public class KakaoLoginController {
             @ApiParam(value = "소셜 access_token", required = true) @RequestParam String accessToken) {
 
         KakaoProfile profile = kakaoService.getKakaoProfile(accessToken);
-        Admin user = userJpaRepository.findByEmailAndProvider(profile.getEmail(), provider).orElseThrow(CUserNotFoundException::new);
+        Admin user = userJpaRepository.findByEmailAndProvider(profile.getEmail(), provider).orElseThrow(CAdminNotFoundException::new);
         return responseService.getSingleResult(jwtTokenProvider.createToken(user.getEmail(), user.getRoles()));
     }
 
@@ -50,7 +50,7 @@ public class KakaoLoginController {
         KakaoProfile profile = kakaoService.getKakaoProfile(accessToken);
         Optional<Admin> user = userJpaRepository.findByEmailAndProvider(profile.getEmail(), provider);
         if(user.isPresent())
-            throw new CUserExistException();
+            throw new CAdminExistException();
 
         userJpaRepository.save(Admin.builder()
                 .email(profile.getEmail())
