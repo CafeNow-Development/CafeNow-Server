@@ -26,6 +26,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation' //validation
     implementation 'org.springframework.boot:spring-boot-starter-web' //starter web
 
+    // *** SMS SKD *** //
+    implementation 'net.nurigo:javaSDK:2.2'
+    compileOnly 'net.nurigo:javaSDK:2.2'
+    annotationProcessor 'net.nurigo:javaSDK:2.2'
+    testAnnotationProcessor 'net.nurigo:javaSDK:2.2'
+    testCompileOnly 'net.nurigo:javaSDK:2.2'
+
     // *** lombok *** //
     implementation 'org.projectlombok:lombok'
     implementation 'junit:junit:4.13.1'
