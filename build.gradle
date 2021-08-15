@@ -60,6 +60,9 @@ dependencies {
 
     // *** gson *** //
     implementation 'com.google.code.gson:gson'
+
+    //*** mapper *** //
+    implementation 'org.modelmapper:modelmapper:2.3.8'
 }
 
 test {

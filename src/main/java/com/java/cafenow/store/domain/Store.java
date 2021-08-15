@@ -38,7 +38,7 @@ public class Store {
     private String phoneNumber;  // 완료 알림을 받을 전화번호
 
     @Column(nullable = false)
-    private Boolean IsApplicationApproval = false; //신청 승인 여부
+    private Boolean isApplicationApproval; //신청 승인 여부
 
     @Column(length = 1000)
     private String cafeContent;

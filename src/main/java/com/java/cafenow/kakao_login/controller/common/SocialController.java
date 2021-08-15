@@ -2,6 +2,7 @@ package com.java.cafenow.kakao_login.controller.common;
 
 import com.google.gson.Gson;
 import com.java.cafenow.kakao_login.service.KakaoService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+
+@Api(tags = {"1. Kakao Login Common"})
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/social/login")

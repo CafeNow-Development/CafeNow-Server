@@ -49,6 +49,7 @@ public class SaveStoreReqDto {
                 .cafeContent(this.cafeContent)
                 .cafeWeekdayHour(this.cafeWeekdayHour)
                 .cafeWeekendHour(this.cafeWeekendHour)
+                .isApplicationApproval(false)
                 .admin(admin)
                 .build();
     }

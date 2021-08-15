@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.Optional;
 
-@Api(tags = {"1. Sign"})
+@Api(tags = {"1. Kakao Login"})
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/v1")
