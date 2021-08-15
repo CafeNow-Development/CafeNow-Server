@@ -9,6 +9,7 @@ import com.java.cafenow.store.dto.FindStoreByIdxResDto;
 import com.java.cafenow.store.dto.SaveStoreReqDto;
 import com.java.cafenow.store.repository.StoreJpaRepository;
 import com.java.cafenow.util.CurrentAdminUtil;
+import com.java.cafenow.util.message.sms.SMSService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class StoreServiceImpl implements StoreService {
     private final StoreJpaRepository storeJpaRepository;
     private final CurrentAdminUtil currentAdminUtil;
     private final ModelMapper mapper;
+    private final SMSService smsService;
 
     @Transactional
     @Override
@@ -56,5 +58,12 @@ public class StoreServiceImpl implements StoreService {
                 .map(m -> mapper.map(m, FindStoreByIdxResDto.class))
                 .orElseThrow(CStoreNotFoundException::new);
         return findStoreByIdxResDto;
+    }
+
+    @Transactional
+    @Override
+    public void updateApprovalStore(Long storeIdx) {
+        Store findStoreByIdx = storeJpaRepository.findById(storeIdx).orElseThrow(CStoreNotFoundException::new);
+        findStoreByIdx.updateIsApplicationApproval();
     }
 }

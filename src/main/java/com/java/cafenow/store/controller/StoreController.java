@@ -9,10 +9,7 @@ import com.java.cafenow.util.response.domain.CommonResult;
 import com.java.cafenow.util.response.domain.ListResult;
 import com.java.cafenow.util.response.domain.SingleResult;
 import com.java.cafenow.util.response.service.ResponseService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,5 +55,16 @@ public class StoreController {
     public SingleResult<FindStoreByIdxResDto> findStoreByIdx(@PathVariable Long storeidx) {
         FindStoreByIdxResDto findSingleStore = storeService.findSingleStore(storeidx);
         return responseService.getSingleResult(findSingleStore);
+    }
+
+    @ApiOperation(value = "매장 등록 승인", notes = "개발자가 매장 등록을 승인한다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @ResponseBody
+    @PutMapping("/approval-store/{storeidx}")
+    public CommonResult ApprovalStore(@PathVariable Long storeidx) {
+        storeService.updateApprovalStore(storeidx);
+        return responseService.getSuccessResult();
     }
 }

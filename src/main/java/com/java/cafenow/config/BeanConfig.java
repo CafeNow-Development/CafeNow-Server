@@ -11,8 +11,7 @@ import org.modelmapper.ModelMapper;
 @RequiredArgsConstructor
 public class BeanConfig {
 
-    private final String API_KEY;
-    private final String API_SECRET;
+
 
     @Bean
     public RestTemplate getRestTemplate() {
@@ -24,8 +23,4 @@ public class BeanConfig {
         return new ModelMapper();
     }
 
-    @Bean
-    public Message message() {
-        return new Message(API_KEY, API_SECRET);
-    }
 }

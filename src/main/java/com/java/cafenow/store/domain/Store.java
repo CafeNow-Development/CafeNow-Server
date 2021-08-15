@@ -55,4 +55,8 @@ public class Store {
     @ManyToOne(targetEntity = Admin.class, fetch = LAZY)
     @JoinColumn(name = "adminIdx")
     private Admin admin;
+
+    public void updateIsApplicationApproval(){
+        this.isApplicationApproval = true;
+    }
 }

@@ -12,4 +12,5 @@ public interface StoreService {
     void saveStore(SaveStoreReqDto saveStoreReqDto);
     List<FindAllStoreResDto> findAllStore();
     FindStoreByIdxResDto findSingleStore(Long storeIdx);
+    void updateApprovalStore(Long storeIdx);
 }
