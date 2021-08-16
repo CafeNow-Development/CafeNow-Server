@@ -27,7 +27,7 @@ public class StoreServiceImpl implements StoreService {
     private final StoreJpaRepository storeJpaRepository;
     private final CurrentAdminUtil currentAdminUtil;
     private final ModelMapper mapper;
-    private final SMSService smsService;
+    //private final SMSService smsService;
 
     @Transactional
     @Override

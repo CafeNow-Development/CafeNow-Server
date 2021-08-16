@@ -1,7 +1,6 @@
 package com.java.cafenow.security.jwt;
 
 import com.java.cafenow.kakao_login.domain.Admin;
-import com.java.cafenow.kakao_login.domain.enumType.Role;
 import com.java.cafenow.security.authectication.MyUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -12,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -21,9 +19,6 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 
 @Slf4j
