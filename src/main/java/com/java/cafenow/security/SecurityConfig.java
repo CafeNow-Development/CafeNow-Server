@@ -35,16 +35,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-                .antMatchers("/*/signin").permitAll()
-                .antMatchers("/*/signin/**").permitAll()
-                .antMatchers("/*/signup").permitAll()
-                .antMatchers("/*/signup/**").permitAll()
+                .antMatchers("/*/login/**").permitAll()
+                .antMatchers("/*/register/**").permitAll()
                 .antMatchers("/social/**").permitAll()
                 .antMatchers("/*/kakao-info-token").permitAll()
-                .antMatchers("/*/admin/**").hasRole("ADMIN_PERMIT")
                 .anyRequest().hasAnyRole("CLIENT", "ADMIN_NOT_PERMIT", "ADMIN_PERMIT");
-                //.anyRequest().hasRole("CLIENT");
-
 
         // ExceptionHandling
         http.exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint());

@@ -76,6 +76,10 @@ public class Admin implements UserDetails {
         return rolesConvertString.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 
+    public String getRole() {
+        return getAuthorities().iterator().next().toString();
+    }
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public String getUsername() {

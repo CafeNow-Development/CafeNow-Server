@@ -32,18 +32,18 @@ public class KakaoLoginController {
     private final KakaoService kakaoService;
 
     @ApiOperation(value = "소셜 로그인", notes = "소셜 회원 로그인을 한다.")
-    @PostMapping(value = "/signin/{provider}")
+    @PostMapping(value = "/login/{provider}")
     public SingleResult<String> signinByProvider(
             @ApiParam(value = "서비스 제공자 provider", required = true, defaultValue = "kakao") @PathVariable String provider,
             @ApiParam(value = "소셜 access_token", required = true) @RequestParam String accessToken) {
 
         KakaoProfile profile = kakaoService.getKakaoProfile(accessToken);
-        Admin user = userJpaRepository.findByEmailAndProvider(profile.getEmail(), provider).orElseThrow(CAdminNotFoundException::new);
-        return responseService.getSingleResult(jwtTokenProvider.createToken(user.getEmail(), user.getRoles()));
+        Admin admin = userJpaRepository.findByEmailAndProvider(profile.getEmail(), provider).orElseThrow(CAdminNotFoundException::new);
+        return responseService.getSingleResult(jwtTokenProvider.createToken(admin));
     }
 
     @ApiOperation(value = "소셜 계정 가입", notes = "소셜 계정 회원가입을 한다.")
-    @PostMapping(value = "/signup/{provider}")
+    @PostMapping(value = "/register/{provider}")
     public CommonResult signupProvider(@ApiParam(value = "서비스 제공자 provider", required = true, defaultValue = "kakao") @PathVariable String provider,
                                        @ApiParam(value = "소셜 access_token", required = true) @RequestParam String accessToken) {
 

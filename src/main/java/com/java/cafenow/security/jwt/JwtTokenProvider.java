@@ -1,5 +1,6 @@
 package com.java.cafenow.security.jwt;
 
+import com.java.cafenow.kakao_login.domain.Admin;
 import com.java.cafenow.kakao_login.domain.enumType.Role;
 import com.java.cafenow.security.authectication.MyUserDetails;
 import io.jsonwebtoken.Claims;
@@ -64,15 +65,13 @@ public class JwtTokenProvider {
 
     /**
      * 사용자의 이름과 권한을 이용해서 accessToken을 만드는 메소드입니다.
-     * @param username 사용자의 이름
-     * @param roles 사용자 권한
      * @return accessToken
      */
-    public String createToken(String username, List<Role> roles){
-        Claims claims = Jwts.claims().setSubject(username);
-        claims.put("auth", roles.stream().
-                map(s -> new SimpleGrantedAuthority(s.getAuthority())).
-                filter(Objects::nonNull).collect(Collectors.toList()));
+    public String createToken(Admin admin){
+        Claims claims = Jwts.claims().setSubject(admin.getUsername());
+        claims.put("name", admin.getName());
+        claims.put("role", admin.getRole());
+        claims.put("provider", admin.getProvider());
 
         Date now = new Date();
         Date validity = new Date(now.getTime() + TOKEN_VALIDATION_SECOND); //Expire Time
