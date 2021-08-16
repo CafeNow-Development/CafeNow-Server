@@ -5,6 +5,7 @@ import com.java.cafenow.advice.exception.CAdminNotFoundException;
 import com.java.cafenow.kakao_login.domain.Admin;
 import com.java.cafenow.kakao_login.domain.enumType.Role;
 import com.java.cafenow.kakao_login.dto.KakaoProfile;
+import com.java.cafenow.kakao_login.dto.RegisterReqDto;
 import com.java.cafenow.kakao_login.repository.AdminJpaRepository;
 import com.java.cafenow.kakao_login.service.KakaoService;
 import com.java.cafenow.security.jwt.JwtTokenProvider;
@@ -17,6 +18,7 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -45,23 +47,14 @@ public class KakaoLoginController {
     @ApiOperation(value = "소셜 계정 가입", notes = "소셜 계정 회원가입을 한다.")
     @PostMapping(value = "/register/{provider}")
     public CommonResult signupProvider(@ApiParam(value = "서비스 제공자 provider", required = true, defaultValue = "kakao") @PathVariable String provider,
-                                       @ApiParam(value = "소셜 access_token", required = true) @RequestParam String accessToken) {
+                                       @Valid @RequestBody RegisterReqDto registerReqDto) {
 
-        KakaoProfile profile = kakaoService.getKakaoProfile(accessToken);
+        KakaoProfile profile = kakaoService.getKakaoProfile(registerReqDto.getAccess_token());
         Optional<Admin> user = userJpaRepository.findByEmailAndProvider(profile.getEmail(), provider);
-        if(user.isPresent())
+        if(user.isPresent()) {
             throw new CAdminExistException();
-
-        userJpaRepository.save(Admin.builder()
-                .email(profile.getEmail())
-                .provider(provider)
-                .name(profile.getNickName())
-                .roles(Collections.singletonList(Role.ROLE_ADMIN_NOT_PERMIT))
-                .profile_image_url(profile.getProfile_image_url())
-                .thumbnail_image_url(profile.getThumbnail_image_url())
-                .is_email_valid(profile.getIs_email_valid())
-                .is_email_verified(profile.getIs_email_verified())
-                .build());
+        }
+        userJpaRepository.save(registerReqDto.saveAdmin(profile, provider));
         return responseService.getSuccessResult();
     }
 }
