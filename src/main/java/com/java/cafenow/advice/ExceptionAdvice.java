@@ -30,52 +30,61 @@ public class ExceptionAdvice {
         return messageSource.getMessage(code, args, LocaleContextHolder.getLocale());
     }
 
+    // Default
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.ACCEPTED)
     protected CommonResult defaultException(HttpServletRequest request, Exception e) {
         return responseService.getFailResult(Integer.parseInt(getMessage("unKnown.code")), e.getMessage());
     }
 
+    // 어드민을 못찾는 상태
     @ExceptionHandler(CAdminNotFoundException.class)
     @ResponseStatus(HttpStatus.ACCEPTED)
     protected CommonResult userNotFoundException(HttpServletRequest request, CAdminNotFoundException e) {
         return responseService.getFailResult(Integer.parseInt(getMessage("userNotFound.code")), getMessage("userNotFound.msg"));
     }
 
+    // 로그인 실패 상태 (이메일)
     @ExceptionHandler(CEmailSignInFailedException.class)
     @ResponseStatus(HttpStatus.ACCEPTED)
     protected CommonResult emailSigninFailed(HttpServletRequest request, CEmailSignInFailedException e) {
         return responseService.getFailResult(Integer.parseInt(getMessage("emailSigninFailed.code")), getMessage("emailSigninFailed.msg"));
     }
 
+    // 로그인 실패 상태
     @ExceptionHandler(CAuthenticationEntryPointException.class)
     public CommonResult authenticationEntryPointException(HttpServletRequest request, CAuthenticationEntryPointException e) {
         return responseService.getFailResult(Integer.parseInt(getMessage("entryPointException.code")), getMessage("entryPointException.msg"));
     }
 
+    // 권한 거부 상태
     @ExceptionHandler(AccessDeniedException.class)
     public CommonResult AccessDeniedException(HttpServletRequest request, AccessDeniedException e) {
         return responseService.getFailResult(Integer.parseInt(getMessage("accessDenied.code")), getMessage("accessDenied.msg"));
     }
 
+    // 연결 실패 상태
     @ExceptionHandler(CCommunicationException.class)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public CommonResult communicationException(HttpServletRequest request, CCommunicationException e) {
         return responseService.getFailResult(Integer.parseInt(getMessage("communicationError.code")), getMessage("communicationError.msg"));
     }
 
+    // 이미 어드민이 존재하는 상태 (회원가입)
     @ExceptionHandler(CAdminExistException.class)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public CommonResult communicationException(HttpServletRequest request, CAdminExistException e) {
         return responseService.getFailResult(Integer.parseInt(getMessage("existingUser.code")), getMessage("existingUser.msg"));
     }
 
+    // 이미 매장이 존재하는 상태
     @ExceptionHandler(CStoreNotFoundException.class)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public CommonResult CStoreNotFoundException(HttpServletRequest request, CStoreNotFoundException e) {
         return responseService.getFailResult(Integer.parseInt(getMessage("CStoreNotFoundException.code")), getMessage("CStoreNotFoundException.msg"));
     }
 
+    // 이미 사업자번호가 존재하는 상태
     @ExceptionHandler(CDuplicationBusinessNumber.class)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public CommonResult CDuplicationBusinessNumber(HttpServletRequest request, CDuplicationBusinessNumber e) {

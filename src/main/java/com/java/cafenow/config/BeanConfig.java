@@ -10,9 +10,6 @@ import org.modelmapper.ModelMapper;
 @Configuration
 @RequiredArgsConstructor
 public class BeanConfig {
-
-
-
     @Bean
     public RestTemplate getRestTemplate() {
         return new RestTemplate();
@@ -22,5 +19,4 @@ public class BeanConfig {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
-
 }
