@@ -2,6 +2,8 @@ server:
   port: 65000
 
 spring:
+  jwt:
+    secret: gwooleldisangyun!!daf8fas89df899889sd89f98sdf89s9d8f9dsf98
   h2:
     console:
       enabled: true
@@ -19,8 +21,6 @@ spring:
   messages:
     basename: i18n/exception
     encoding: UTF-8
-  jwt:
-    secret: gwooleldisangyun!!@
   social:
     kakao:
       client_id: 475eeac2ef5afa6af598830e6720ecc6 # 앱생성시 받은 REST API 키
@@ -36,3 +36,8 @@ spring:
   freemarker:
     template-loader-path: classpath:/templates
     suffix: .ftl
+
+  servlet:
+    multipart:
+      maxFileSize: 10MB
+      maxRequestSize: 20MB

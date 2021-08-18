@@ -22,6 +22,8 @@ public class CurrentAdminUtil {
         } else{
             username = principal.toString();
         }
+        System.out.println("====================================================");
+        System.out.println("username = " + username);
         return username;
     }
 

@@ -3,8 +3,8 @@ package com.java.cafenow.kakao_login.controller;
 import com.java.cafenow.advice.exception.CAdminExistException;
 import com.java.cafenow.advice.exception.CAdminNotFoundException;
 import com.java.cafenow.kakao_login.domain.Admin;
-import com.java.cafenow.kakao_login.domain.enumType.Role;
 import com.java.cafenow.kakao_login.dto.KakaoProfile;
+import com.java.cafenow.kakao_login.dto.LoginReqDto;
 import com.java.cafenow.kakao_login.dto.RegisterReqDto;
 import com.java.cafenow.kakao_login.repository.AdminJpaRepository;
 import com.java.cafenow.kakao_login.service.KakaoService;
@@ -18,8 +18,9 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.Collections;
 import java.util.Optional;
 
 @Api(tags = {"1. Kakao Login"})
@@ -37,9 +38,9 @@ public class KakaoLoginController {
     @PostMapping(value = "/login/{provider}")
     public SingleResult<String> signinByProvider(
             @ApiParam(value = "서비스 제공자 provider", required = true, defaultValue = "kakao") @PathVariable String provider,
-            @ApiParam(value = "소셜 access_token", required = true) @RequestParam String accessToken) {
+            @Valid @RequestBody LoginReqDto loginReqDto) {
 
-        KakaoProfile profile = kakaoService.getKakaoProfile(accessToken);
+        KakaoProfile profile = kakaoService.getKakaoProfile(loginReqDto.getAccessToken());
         Admin admin = userJpaRepository.findByEmailAndProvider(profile.getEmail(), provider).orElseThrow(CAdminNotFoundException::new);
         return responseService.getSingleResult(jwtTokenProvider.createToken(admin));
     }

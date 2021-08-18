@@ -1,18 +1,16 @@
 package com.java.cafenow.store.dto;
 
-import com.java.cafenow.kakao_login.domain.Admin;
-import com.java.cafenow.store.domain.Store;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Data
-@Builder
 @AllArgsConstructor
-@NoArgsConstructor
 public class SaveStoreReqDto {
 
     // 카페 사장님이 매장을 등록할 때 사용하는 정보 => 요청
@@ -39,18 +37,8 @@ public class SaveStoreReqDto {
     @NotBlank(message = "공휴일 영업 시간을 입력해주세요.")
     private String cafeWeekendHour;
 
-    public Store saveStore(Admin admin) {
-        return Store.builder()
-                .businessNumber(this.businessNumber)
-                .cafeName(this.cafeName)
-                .address(this.address)
-                .cafeNumber(this.cafeNumber)
-                .phoneNumber(this.phoneNumber)
-                .cafeContent(this.cafeContent)
-                .cafeWeekdayHour(this.cafeWeekdayHour)
-                .cafeWeekendHour(this.cafeWeekendHour)
-                .isApplicationApproval(false)
-                .admin(admin)
-                .build();
-    }
+    @NotBlank(message = "카카오 이메일을 입력해주세요.")
+    private String email;
+
+    List<MultipartFile> files;
 }

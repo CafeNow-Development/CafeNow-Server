@@ -80,7 +80,6 @@ public class Admin implements UserDetails {
         return getAuthorities().iterator().next().toString();
     }
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public String getUsername() {
         return this.email;

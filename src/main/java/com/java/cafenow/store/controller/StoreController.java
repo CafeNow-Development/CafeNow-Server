@@ -10,9 +10,14 @@ import com.java.cafenow.util.response.domain.SingleResult;
 import com.java.cafenow.util.response.service.ResponseService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Api(tags = {"2. Store"})
@@ -29,13 +34,13 @@ public class StoreController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @ResponseBody
-    @PostMapping("/admin/store")
-    public CommonResult saveStore(@Valid @RequestBody SaveStoreReqDto saveStoreReqDto) {
-        storeService.saveStore(saveStoreReqDto);
+    @PostMapping(value = "/admin/store", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public CommonResult saveStore(SaveStoreReqDto saveStoreReqDto) throws Exception {
+        storeService.saveStore(saveStoreReqDto, saveStoreReqDto.getFiles());
         return responseService.getSuccessResult();
     }
 
-    @ApiOperation(value = "Develop 매장 등록 전체 신청 조회", notes = "개발자가 매장 등록 신청을 전체 조회한다.")
+    @ApiOperation(value = "Develop 매장 등록 전체 신청 조회 (IsApplicationApproval == false)", notes = "개발자가 매장 등록 신청을 전체 조회한다.(IsApplicationApproval == False 인것만 조회)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
@@ -65,6 +70,14 @@ public class StoreController {
     @PutMapping("/develop/approval-store/{storeidx}")
     public CommonResult ApprovalStore(@PathVariable Long storeidx) {
         storeService.updateApprovalStore(storeidx);
+        return responseService.getSuccessResult();
+    }
+
+    @PostMapping(value = "/upload", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public CommonResult create(@RequestPart(value="image") List<MultipartFile> files) throws Exception {
+        for (MultipartFile file : files) {
+            System.out.println("file = " + file.getOriginalFilename());
+        }
         return responseService.getSuccessResult();
     }
 }
