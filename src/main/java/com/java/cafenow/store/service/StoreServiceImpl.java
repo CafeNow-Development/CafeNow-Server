@@ -15,6 +15,7 @@ import com.java.cafenow.store.repository.StoreJpaRepository;
 import com.java.cafenow.util.CurrentAdminUtil;
 import com.java.cafenow.util.message.sms.SMSService;
 import com.java.cafenow.util.photo.FileUtil;
+import com.java.cafenow.util.photo.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ public class StoreServiceImpl implements StoreService {
     private final StoreJpaRepository storeJpaRepository;
     private final PhotoJpaRepository photoJpaRepository;
     private final FileUtil fileUtil;
+    private final S3Uploader s3Uploader;
     private final CurrentAdminUtil currentAdminUtil;
     private final ModelMapper mapper;
     //private final SMSService smsService;
@@ -43,7 +45,8 @@ public class StoreServiceImpl implements StoreService {
         businessNumberCheck(saveStoreReqDto.getBusinessNumber());
         Admin currentAdmin = currentAdminUtil.getCurrentAdmin();
         Store store = new Store(saveStoreReqDto, currentAdmin);
-        List<Photo> photos = fileUtil.parseFileInfo(files);
+//        List<Photo> photos = fileUtil.parseFileInfo(files);
+        List<Photo> photos = s3Uploader.upload_image(files, "static");
         //파일이 존재할 때만 처리
         if(!photos.isEmpty()) {
             for (Photo photo : photos) {

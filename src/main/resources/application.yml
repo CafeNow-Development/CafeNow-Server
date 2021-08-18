@@ -41,3 +41,15 @@ spring:
     multipart:
       maxFileSize: 10MB
       maxRequestSize: 20MB
+
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIARMCDCC23Y2AZWMBT
+      secretKey: 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
+    s3:
+      bucket: cafenow
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
