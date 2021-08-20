@@ -1,6 +1,7 @@
 package com.java.cafenow.kakao_login.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.java.cafenow.store.domain.Store;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,11 +12,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.java.cafenow.kakao_login.domain.enumType.Role;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
 
 @Builder
@@ -76,7 +76,10 @@ public class Admin implements UserDetails {
         return rolesConvertString.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    public String getRole() {
+        return getAuthorities().iterator().next().toString();
+    }
+
     @Override
     public String getUsername() {
         return this.email;

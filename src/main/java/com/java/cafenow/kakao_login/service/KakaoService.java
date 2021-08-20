@@ -1,9 +1,15 @@
 package com.java.cafenow.kakao_login.service;
 
 import com.google.gson.Gson;
+import com.java.cafenow.advice.exception.CAdminNotFoundException;
 import com.java.cafenow.advice.exception.CCommunicationException;
+import com.java.cafenow.kakao_login.domain.Admin;
 import com.java.cafenow.kakao_login.dto.KakaoProfile;
+import com.java.cafenow.kakao_login.dto.LoginResDto;
 import com.java.cafenow.kakao_login.dto.RetKakaoAuth;
+import com.java.cafenow.kakao_login.repository.AdminJpaRepository;
+import com.java.cafenow.security.jwt.JwtTokenProvider;
+import com.java.cafenow.util.response.service.ResponseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;

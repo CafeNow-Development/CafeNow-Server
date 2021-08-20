@@ -26,6 +26,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation' //validation
     implementation 'org.springframework.boot:spring-boot-starter-web' //starter web
 
+    // *** SMS SKD *** //
+    implementation 'net.nurigo:javaSDK:2.2'
+    compileOnly 'net.nurigo:javaSDK:2.2'
+    annotationProcessor 'net.nurigo:javaSDK:2.2'
+    testAnnotationProcessor 'net.nurigo:javaSDK:2.2'
+    testCompileOnly 'net.nurigo:javaSDK:2.2'
+
     // *** lombok *** //
     implementation 'org.projectlombok:lombok'
     implementation 'junit:junit:4.13.1'
@@ -53,13 +60,21 @@ dependencies {
     implementation 'net.rakugakibox.util:yaml-resource-bundle:1.2'
 
     // *** jwt *** //
-    implementation 'io.jsonwebtoken:jjwt-api:0.11.1'
-    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.2'
-    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.1'
-    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.1'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 
     // *** gson *** //
     implementation 'com.google.code.gson:gson'
+
+    //*** mapper *** //
+    implementation 'org.modelmapper:modelmapper:2.3.8'
+
+    // *** file upload *** //
+    implementation 'commons-io:commons-io:2.8.0'
+    implementation 'commons-fileupload:commons-fileupload:1.3.3'
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.5.RELEASE'
+
 }
 
 test {

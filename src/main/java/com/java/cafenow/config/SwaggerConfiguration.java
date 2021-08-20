@@ -42,7 +42,7 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
                 .useDefaultResponseMessages(false)
                 .groupName(version)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.java.cafenow.kakao_login.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.java.cafenow"))
                 .paths(PathSelectors.ant("/**"))
                 .build()
                 .apiInfo(apiInfo(title, version))

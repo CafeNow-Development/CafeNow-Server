@@ -1,7 +1,11 @@
 package com.java.cafenow.security.jwt;
 
 import com.java.cafenow.advice.exception.CustomException;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -13,12 +17,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component
 @RequiredArgsConstructor
+@Component
+@Slf4j
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
 
+    @SneakyThrows
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = jwtTokenProvider.resolveToken(request);
@@ -28,10 +34,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 Authentication authentication = jwtTokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-        } catch (CustomException e){
-            // 사용자가 인증되지 않도록 보장하는 매우 중요한 코드
-            SecurityContextHolder.clearContext();
-            response.sendError(e.getHttpStatus().value(), e.getMessage());
+        } catch (ExpiredJwtException e) {   // 만약 유효기간을 넘겼다면??
+            response.setHeader("message", e.getMessage());
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
             return;
         }
 
