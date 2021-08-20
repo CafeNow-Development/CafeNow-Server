@@ -79,6 +79,24 @@ public class Store {
             photo.setStore(this);
     }
 
+    @OneToMany(
+            mappedBy = "store",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true
+    )
+    private List<Review> reviews = new ArrayList<>();
+
+    // Store에서 파일 처리 위함
+    public void addReview(Review review) {
+        this.reviews.add(review);
+
+        // 게시글에 파일이 저장되어있지 않은 경우
+        if(review.getStore() != this)
+            // 파일 저장
+            review.setStore(this);
+    }
+
+
     @Builder
     public Store(SaveStoreReqDto saveStoreReqDto, Admin admin) {
         this.businessNumber = saveStoreReqDto.getBusinessNumber();
