@@ -8,13 +8,12 @@ import com.java.cafenow.kakao_login.repository.AdminJpaRepository;
 import com.java.cafenow.store.domain.Photo;
 import com.java.cafenow.store.domain.Store;
 import com.java.cafenow.store.dto.FindAllStoreResDto;
+import com.java.cafenow.store.dto.FindByPhoto;
 import com.java.cafenow.store.dto.FindStoreByIdxResDto;
 import com.java.cafenow.store.dto.SaveStoreReqDto;
 import com.java.cafenow.store.repository.PhotoJpaRepository;
 import com.java.cafenow.store.repository.StoreJpaRepository;
 import com.java.cafenow.util.CurrentAdminUtil;
-import com.java.cafenow.util.message.sms.SMSService;
-import com.java.cafenow.util.photo.FileUtil;
 import com.java.cafenow.util.photo.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -33,7 +32,6 @@ public class StoreServiceImpl implements StoreService {
 
     private final StoreJpaRepository storeJpaRepository;
     private final PhotoJpaRepository photoJpaRepository;
-    private final FileUtil fileUtil;
     private final S3Uploader s3Uploader;
     private final CurrentAdminUtil currentAdminUtil;
     private final ModelMapper mapper;
@@ -45,7 +43,6 @@ public class StoreServiceImpl implements StoreService {
         businessNumberCheck(saveStoreReqDto.getBusinessNumber());
         Admin currentAdmin = currentAdminUtil.getCurrentAdmin();
         Store store = new Store(saveStoreReqDto, currentAdmin);
-//        List<Photo> photos = fileUtil.parseFileInfo(files);
         List<Photo> photos = s3Uploader.upload_image(files, "static");
         //파일이 존재할 때만 처리
         if(!photos.isEmpty()) {
@@ -76,6 +73,13 @@ public class StoreServiceImpl implements StoreService {
         FindStoreByIdxResDto findStoreByIdxResDto = storeJpaRepository.findById(storeIdx)
                 .map(m -> mapper.map(m, FindStoreByIdxResDto.class))
                 .orElseThrow(CStoreNotFoundException::new);
+
+        Store store = storeJpaRepository.findById(storeIdx).orElseThrow(CStoreNotFoundException::new);
+        List<FindByPhoto> findByPhotos = photoJpaRepository.findAllByStore(store)
+                .stream().map(m -> mapper.map(m, FindByPhoto.class))
+                .collect(Collectors.toList());
+        findStoreByIdxResDto.setFindByPhotos(findByPhotos);
+
         return findStoreByIdxResDto;
     }
 

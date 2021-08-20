@@ -45,8 +45,8 @@ spring:
 cloud:
   aws:
     credentials:
-      accessKey:
-      secretKey:
+      accessKey: AKIARMCDCC23Y2AZWMBT
+      secretKey: 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
     s3:
       bucket: cafenow
     region:

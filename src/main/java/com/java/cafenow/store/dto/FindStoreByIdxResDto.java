@@ -1,8 +1,11 @@
 package com.java.cafenow.store.dto;
 
+import com.java.cafenow.store.domain.Photo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -19,5 +22,6 @@ public class FindStoreByIdxResDto {
     private String cafeContent;
     private String cafeWeekendHour;
     private String cafeWeekdayHour;
+    List<FindByPhoto> findByPhotos;
 
 }
