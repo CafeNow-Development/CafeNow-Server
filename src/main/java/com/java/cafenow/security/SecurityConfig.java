@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/social/**").permitAll()
                 .antMatchers("/*/kakao-info-token").permitAll()
                 .antMatchers("/*/admin/store").permitAll()
-                .anyRequest().hasAnyRole("CLIENT", "ADMIN_NOT_PERMIT", "ADMIN_PERMIT");
+                .anyRequest().hasAnyRole("ADMIN", "STAFF");
 
         // ExceptionHandling
         http.exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint());
