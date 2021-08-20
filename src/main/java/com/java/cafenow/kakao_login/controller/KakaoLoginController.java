@@ -42,7 +42,7 @@ public class KakaoLoginController {
 
         KakaoProfile profile = kakaoService.getKakaoProfile(loginReqDto.getAccessToken());
         Admin admin = userJpaRepository.findByEmailAndProvider(profile.getEmail(), provider).orElseThrow(CAdminNotFoundException::new);
-        return responseService.getSingleResult(jwtTokenProvider.createToken(admin));
+        return responseService.getSingleResult(jwtTokenProvider.createTokenAdmin(admin));
     }
 
     @ApiOperation(value = "소셜 계정 가입", notes = "소셜 계정 회원가입을 한다.")
