@@ -37,8 +37,5 @@ public class SaveStoreReqDto {
     @NotBlank(message = "공휴일 영업 시간을 입력해주세요.")
     private String cafeWeekendHour;
 
-    @NotBlank(message = "카카오 이메일을 입력해주세요.")
-    private String email;
-
     List<MultipartFile> files;
 }

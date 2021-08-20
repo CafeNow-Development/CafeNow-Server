@@ -1,6 +1,8 @@
 package com.java.cafenow.store.domain;
 
 import com.java.cafenow.kakao_login.domain.Admin;
+import com.java.cafenow.kakao_login.domain.enumType.Role;
+import com.java.cafenow.store.domain.enumType.Business;
 import com.java.cafenow.store.dto.SaveStoreReqDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +14,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.*;
 
 @Entity
@@ -52,8 +55,8 @@ public class Store {
     @Column(nullable = false, length = 500)
     private String cafeWeekdayHour;
 
-    @Column
-    private Boolean isBusiness;
+    @Enumerated(STRING)
+    private Business business;
 
     @ManyToOne(targetEntity = Admin.class, fetch = LAZY)
     @JoinColumn(name = "adminIdx")
@@ -87,6 +90,7 @@ public class Store {
         this.cafeContent = saveStoreReqDto.getCafeContent();
         this.cafeWeekendHour = saveStoreReqDto.getCafeWeekendHour();
         this.cafeWeekdayHour = saveStoreReqDto.getCafeWeekdayHour();
+        this.business = Business.ROLE_CLOSED;
         this.admin = admin;
     }
 

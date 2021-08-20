@@ -67,14 +67,6 @@ public class StoreController {
         return responseService.getSuccessResult();
     }
 
-    @PostMapping(value = "/upload", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public CommonResult create(@RequestPart(value="image") List<MultipartFile> files) throws Exception {
-        for (MultipartFile file : files) {
-            System.out.println("file = " + file.getOriginalFilename());
-        }
-        return responseService.getSuccessResult();
-    }
-
     @ApiOperation(value = "Anonymous 매장 전체 조회", notes = "익명의 사용자가 매장을 전체 조회한다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
