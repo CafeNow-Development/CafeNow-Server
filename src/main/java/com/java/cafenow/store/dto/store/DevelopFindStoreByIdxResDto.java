@@ -23,5 +23,4 @@ public class DevelopFindStoreByIdxResDto {
     private String cafeWeekendHour;
     private String cafeWeekdayHour;
     List<FindByPhotoResDto> findByPhotos;
-
 }

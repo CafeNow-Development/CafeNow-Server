@@ -19,5 +19,4 @@ public interface StoreService {
     List<AnonymousFindAllStoreResDto> findAllStoreByKeyword(String keyword);
 
     void saveReview(SaveReViewReqDto saveReViewReqDto, Long storeIdx);
-    List<FindAllReviewResDto> findAllReview();
 }

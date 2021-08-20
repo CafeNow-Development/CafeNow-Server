@@ -102,11 +102,17 @@ public class StoreServiceImpl implements StoreService {
                 .map(m -> mapper.map(m, AnonymousFindStoreByIdxResDto.class))
                 .orElseThrow(CStoreNotFoundException::new);
 
-        List<FindByPhotoResDto> collect =  findByStoreIdx(idx).getPhotos()
+        Store byStoreIdx = findByStoreIdx(idx);
+        List<FindByPhotoResDto> findByPhotoResDtos =  byStoreIdx.getPhotos()
                 .stream().map(m -> mapper.map(m, FindByPhotoResDto.class))
                 .collect(Collectors.toList());
 
-        anonymousFindStoreByIdxResDto.setFindByPhotos(collect);
+        List<FindAllReviewResDto> findAllReviewResDtos = byStoreIdx.getReviews()
+                .stream().map(m -> mapper.map(m, FindAllReviewResDto.class))
+                .collect(Collectors.toList());
+
+        anonymousFindStoreByIdxResDto.setFindByPhotos(findByPhotoResDtos);
+        anonymousFindStoreByIdxResDto.setFindAllReviewRes(findAllReviewResDtos);
         return anonymousFindStoreByIdxResDto;
     }
 
@@ -132,10 +138,5 @@ public class StoreServiceImpl implements StoreService {
     public void saveReview(SaveReViewReqDto saveReViewReqDto, Long storeIdx) {
         Store store = storeJpaRepository.findById(storeIdx).orElseThrow(CStoreNotFoundException::new);
         store.addReview(reviewJpaRepository.save(saveReViewReqDto.saveReview()));
-    }
-
-    @Override
-    public List<FindAllReviewResDto> findAllReview() {
-        return null;
     }
 }
