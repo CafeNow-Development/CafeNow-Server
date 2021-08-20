@@ -1,7 +1,7 @@
 package com.java.cafenow.store.controller;
 
-import com.java.cafenow.store.dto.FindAllStoreResDto;
-import com.java.cafenow.store.dto.FindStoreByIdxResDto;
+import com.java.cafenow.store.dto.DevelopFindAllStoreResDto;
+import com.java.cafenow.store.dto.DevelopFindStoreByIdxResDto;
 import com.java.cafenow.store.dto.SaveStoreReqDto;
 import com.java.cafenow.store.service.StoreService;
 import com.java.cafenow.util.response.domain.CommonResult;
@@ -10,14 +10,10 @@ import com.java.cafenow.util.response.domain.SingleResult;
 import com.java.cafenow.util.response.service.ResponseService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 @Api(tags = {"2. Store"})
@@ -46,8 +42,8 @@ public class StoreController {
     })
     @ResponseBody
     @GetMapping("/develop/store")
-    public ListResult<FindAllStoreResDto> findAllStore() {
-        List<FindAllStoreResDto> findAllStoreResDtoList = storeService.findAllStore();
+    public ListResult<DevelopFindAllStoreResDto> findAllStore() {
+        List<DevelopFindAllStoreResDto> findAllStoreResDtoList = storeService.DevelopfindAllStore();
         return responseService.getListResult(findAllStoreResDtoList);
     }
 
@@ -57,8 +53,8 @@ public class StoreController {
     })
     @ResponseBody
     @GetMapping("/develop/store/{storeidx}")
-    public SingleResult<FindStoreByIdxResDto> findStoreByIdx(@PathVariable Long storeidx) {
-        FindStoreByIdxResDto findSingleStore = storeService.findSingleStore(storeidx);
+    public SingleResult<DevelopFindStoreByIdxResDto> findStoreByIdx(@PathVariable Long storeidx) {
+        DevelopFindStoreByIdxResDto findSingleStore = storeService.DevelopFindSingleStore(storeidx);
         return responseService.getSingleResult(findSingleStore);
     }
 

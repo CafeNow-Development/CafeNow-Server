@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PhotoDto {
 
-    private String origFileName;
     private String filePath;
-    private Long fileSize;
 
 }

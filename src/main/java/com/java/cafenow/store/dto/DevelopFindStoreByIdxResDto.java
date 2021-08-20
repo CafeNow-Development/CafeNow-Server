@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FindStoreByIdxResDto {
+public class DevelopFindStoreByIdxResDto {
 
     private Long storeIdx;
     private String businessNumber;
@@ -22,6 +22,6 @@ public class FindStoreByIdxResDto {
     private String cafeContent;
     private String cafeWeekendHour;
     private String cafeWeekdayHour;
-    List<FindByPhoto> findByPhotos;
+    List<FindByPhotoResDto> findByPhotos;
 
 }

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FindByPhoto {
+public class FindByPhotoResDto {
 
     private String filePath;
 
