@@ -1,6 +1,7 @@
-package com.java.cafenow.store.dto;
+package com.java.cafenow.store.dto.store;
 
 import com.java.cafenow.store.domain.enumType.Business;
+import com.java.cafenow.store.dto.photo.FindByPhotoResDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,7 @@
 package com.java.cafenow.store.controller;
 
-import com.java.cafenow.store.dto.*;
+import com.java.cafenow.store.dto.review.SaveReViewReqDto;
+import com.java.cafenow.store.dto.store.*;
 import com.java.cafenow.store.service.StoreService;
 import com.java.cafenow.util.response.domain.CommonResult;
 import com.java.cafenow.util.response.domain.ListResult;
@@ -10,8 +11,8 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = {"2. Store"})
@@ -109,5 +110,16 @@ public class StoreController {
     public ListResult<AnonymousFindAllStoreResDto> findAllByKeyWord(@RequestParam String keyword) {
         List<AnonymousFindAllStoreResDto> allStoreByKeyword = storeService.findAllStoreByKeyword(keyword);
         return responseService.getListResult(allStoreByKeyword);
+    }
+
+    @ApiOperation(value = "매장 리뷰 작성", notes = "매장 리뷰를 작성한다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @ResponseBody
+    @PostMapping("/store/review/{storeIdx}")
+    public CommonResult saveReview(@Valid @RequestBody SaveReViewReqDto saveReViewReqDto, @PathVariable Long storeIdx) {
+        storeService.saveReview(saveReViewReqDto, storeIdx);
+        return responseService.getSuccessResult();
     }
 }

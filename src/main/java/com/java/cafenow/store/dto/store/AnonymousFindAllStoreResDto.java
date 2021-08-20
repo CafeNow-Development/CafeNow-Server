@@ -1,4 +1,4 @@
-package com.java.cafenow.store.dto;
+package com.java.cafenow.store.dto.store;
 
 import com.java.cafenow.store.domain.enumType.Business;
 import lombok.AllArgsConstructor;

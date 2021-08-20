@@ -1,4 +1,4 @@
-package com.java.cafenow.store.dto;
+package com.java.cafenow.store.dto.store;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

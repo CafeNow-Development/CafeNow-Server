@@ -1,13 +1,15 @@
-package com.java.cafenow.store.dto;
+package com.java.cafenow.store.dto.photo;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class FindByPhotoResDto {
+@NoArgsConstructor
+@Builder
+public class PhotoDto {
 
     private String filePath;
 

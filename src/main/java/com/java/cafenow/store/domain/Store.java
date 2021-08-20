@@ -1,9 +1,8 @@
 package com.java.cafenow.store.domain;
 
 import com.java.cafenow.kakao_login.domain.Admin;
-import com.java.cafenow.kakao_login.domain.enumType.Role;
 import com.java.cafenow.store.domain.enumType.Business;
-import com.java.cafenow.store.dto.SaveStoreReqDto;
+import com.java.cafenow.store.dto.store.SaveStoreReqDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

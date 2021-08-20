@@ -4,9 +4,14 @@ import com.java.cafenow.advice.exception.CDuplicationBusinessNumber;
 import com.java.cafenow.advice.exception.CStoreNotFoundException;
 import com.java.cafenow.kakao_login.domain.Admin;
 import com.java.cafenow.store.domain.Photo;
+import com.java.cafenow.store.domain.Review;
 import com.java.cafenow.store.domain.Store;
-import com.java.cafenow.store.dto.*;
+import com.java.cafenow.store.dto.photo.FindByPhotoResDto;
+import com.java.cafenow.store.dto.review.FindAllReviewResDto;
+import com.java.cafenow.store.dto.review.SaveReViewReqDto;
+import com.java.cafenow.store.dto.store.*;
 import com.java.cafenow.store.repository.PhotoJpaRepository;
+import com.java.cafenow.store.repository.ReviewJpaRepository;
 import com.java.cafenow.store.repository.StoreJpaRepository;
 import com.java.cafenow.util.CurrentAdminUtil;
 import com.java.cafenow.util.photo.S3Uploader;
@@ -27,6 +32,7 @@ public class StoreServiceImpl implements StoreService {
 
     private final StoreJpaRepository storeJpaRepository;
     private final PhotoJpaRepository photoJpaRepository;
+    private final ReviewJpaRepository reviewJpaRepository;
     private final S3Uploader s3Uploader;
     private final CurrentAdminUtil currentAdminUtil;
     private final ModelMapper mapper;
@@ -104,6 +110,10 @@ public class StoreServiceImpl implements StoreService {
         return anonymousFindStoreByIdxResDto;
     }
 
+    private Store findByStoreIdx(Long idx){
+        return storeJpaRepository.findById(idx).orElseThrow(CStoreNotFoundException::new);
+    }
+
     @Transactional
     @Override
     public void deleteStore(Long idx) {
@@ -117,7 +127,15 @@ public class StoreServiceImpl implements StoreService {
                 .collect(Collectors.toList());
     }
 
-    private Store findByStoreIdx(Long idx){
-        return storeJpaRepository.findById(idx).orElseThrow(CStoreNotFoundException::new);
+    @Transactional
+    @Override
+    public void saveReview(SaveReViewReqDto saveReViewReqDto, Long storeIdx) {
+        Store store = storeJpaRepository.findById(storeIdx).orElseThrow(CStoreNotFoundException::new);
+        store.addReview(reviewJpaRepository.save(saveReViewReqDto.saveReview()));
+    }
+
+    @Override
+    public List<FindAllReviewResDto> findAllReview() {
+        return null;
     }
 }

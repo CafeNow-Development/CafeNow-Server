@@ -7,7 +7,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.java.cafenow.store.domain.Photo;
-import com.java.cafenow.store.dto.PhotoDto;
+import com.java.cafenow.store.dto.photo.PhotoDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
