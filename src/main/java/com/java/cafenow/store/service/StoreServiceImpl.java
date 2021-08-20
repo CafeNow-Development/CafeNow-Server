@@ -91,9 +91,10 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public List<AnonymousFindAllStoreResDto> anonymousFindAllStore() {
-        return storeJpaRepository.findAll()
+        List<AnonymousFindAllStoreResDto> findAllStoreResDtos = storeJpaRepository.findAll()
                 .stream().map(m -> mapper.map(m, AnonymousFindAllStoreResDto.class))
                 .collect(Collectors.toList());
+        return findAllStoreResDtos;
     }
 
     @Override

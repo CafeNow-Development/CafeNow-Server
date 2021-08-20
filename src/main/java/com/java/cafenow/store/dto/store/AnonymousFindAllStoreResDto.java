@@ -15,5 +15,6 @@ public class AnonymousFindAllStoreResDto {
     private String address;
     private String cafeNumber;
     private Business business;
+    private int reviewCount;
 
 }
