@@ -1,5 +1,6 @@
 package com.java.cafenow.store.dto;
 
+import com.java.cafenow.store.domain.enumType.Business;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,6 @@ public class AnonymousFindAllStoreResDto {
     private String cafeName;
     private String address;
     private String cafeNumber;
-    private Boolean isBusiness;
+    private Business business;
 
 }

@@ -12,4 +12,7 @@ import java.util.Optional;
 public interface StoreJpaRepository extends JpaRepository<Store, Long> {
     List<Store> findAllByIsApplicationApproval(boolean isApplicationApproval);
     Optional<Store> findByBusinessNumber(String businessNumber);
+
+    @Query("select s from Store s where s.cafeName like %:keyWord% or s.address like %:keyWord% order by s.storeIdx desc")
+    List<Store> searchKeyword(String keyWord);
 }

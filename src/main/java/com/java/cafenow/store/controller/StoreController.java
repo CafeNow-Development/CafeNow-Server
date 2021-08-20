@@ -99,4 +99,15 @@ public class StoreController {
         AnonymousFindStoreByIdxResDto anonymousFindStoreByIdxResDto = storeService.anonymousFindSingleStore(storeidx);
         return responseService.getSingleResult(anonymousFindStoreByIdxResDto);
     }
+
+    @ApiOperation(value = "매장 검색 조회 (카페 이름, 주소)", notes = "매장을 검색한다. (카페 이름, 주소 기준)")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @ResponseBody
+    @GetMapping("/store/search")
+    public ListResult<AnonymousFindAllStoreResDto> findAllByKeyWord(@RequestParam String keyword) {
+        List<AnonymousFindAllStoreResDto> allStoreByKeyword = storeService.findAllStoreByKeyword(keyword);
+        return responseService.getListResult(allStoreByKeyword);
+    }
 }

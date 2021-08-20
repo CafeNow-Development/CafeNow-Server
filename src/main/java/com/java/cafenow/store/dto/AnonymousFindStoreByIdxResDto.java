@@ -1,5 +1,6 @@
 package com.java.cafenow.store.dto;
 
+import com.java.cafenow.store.domain.enumType.Business;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ public class AnonymousFindStoreByIdxResDto {
     private String cafeContent;
     private String cafeWeekendHour;
     private String cafeWeekdayHour;
-    private Boolean isBusiness;
+    private Business business;
     List<FindByPhotoResDto> findByPhotos;
 
 }

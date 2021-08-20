@@ -110,6 +110,13 @@ public class StoreServiceImpl implements StoreService {
         storeJpaRepository.deleteById(idx);
     }
 
+    @Override
+    public List<AnonymousFindAllStoreResDto> findAllStoreByKeyword(String keyword) {
+        return storeJpaRepository.searchKeyword(keyword)
+                .stream().map(m -> mapper.map(m, AnonymousFindAllStoreResDto.class))
+                .collect(Collectors.toList());
+    }
+
     private Store findByStoreIdx(Long idx){
         return storeJpaRepository.findById(idx).orElseThrow(CStoreNotFoundException::new);
     }

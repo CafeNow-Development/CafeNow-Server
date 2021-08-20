@@ -14,4 +14,5 @@ public interface StoreService {
     List<AnonymousFindAllStoreResDto> anonymousFindAllStore();
     AnonymousFindStoreByIdxResDto anonymousFindSingleStore(Long idx);
     void deleteStore(Long idx);
+    List<AnonymousFindAllStoreResDto> findAllStoreByKeyword(String keyword);
 }
