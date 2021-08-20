@@ -104,6 +104,12 @@ public class StoreServiceImpl implements StoreService {
         return anonymousFindStoreByIdxResDto;
     }
 
+    @Transactional
+    @Override
+    public void deleteStore(Long idx) {
+        storeJpaRepository.deleteById(idx);
+    }
+
     private Store findByStoreIdx(Long idx){
         return storeJpaRepository.findById(idx).orElseThrow(CStoreNotFoundException::new);
     }

@@ -34,6 +34,17 @@ public class StoreController {
         return responseService.getSuccessResult();
     }
 
+    @ApiOperation(value = "Admin 매장 삭제", notes = "어드민이 매장을 삭제한다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @ResponseBody
+    @DeleteMapping("/store/{storeidx}")
+    public CommonResult deleteStoreByIdx(@PathVariable Long storeidx) {
+        storeService.deleteStore(storeidx);
+        return responseService.getSuccessResult();
+    }
+
     @ApiOperation(value = "Develop 매장 등록 전체 신청 조회 (IsApplicationApproval == false)", notes = "개발자가 매장 등록 신청을 전체 조회한다.(IsApplicationApproval == False 인것만 조회)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
