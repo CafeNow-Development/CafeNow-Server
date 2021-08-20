@@ -1,15 +1,11 @@
 package com.java.cafenow.store.service;
 
-import com.java.cafenow.advice.exception.CAdminNotFoundException;
 import com.java.cafenow.advice.exception.CDuplicationBusinessNumber;
 import com.java.cafenow.advice.exception.CStoreNotFoundException;
 import com.java.cafenow.kakao_login.domain.Admin;
 import com.java.cafenow.store.domain.Photo;
 import com.java.cafenow.store.domain.Store;
-import com.java.cafenow.store.dto.DevelopFindAllStoreResDto;
-import com.java.cafenow.store.dto.DevelopFindStoreByIdxResDto;
-import com.java.cafenow.store.dto.FindByPhotoResDto;
-import com.java.cafenow.store.dto.SaveStoreReqDto;
+import com.java.cafenow.store.dto.*;
 import com.java.cafenow.store.repository.PhotoJpaRepository;
 import com.java.cafenow.store.repository.StoreJpaRepository;
 import com.java.cafenow.util.CurrentAdminUtil;
@@ -54,17 +50,16 @@ public class StoreServiceImpl implements StoreService {
 
     public void businessNumberCheck(String businessNumber) {
         Optional<Store> findByBusinessNumber = storeJpaRepository.findByBusinessNumber(businessNumber);
-        if(!findByBusinessNumber.isEmpty()){
+        if(findByBusinessNumber.isPresent()){
             throw new CDuplicationBusinessNumber();
         }
     }
 
     @Override
-    public List<DevelopFindAllStoreResDto> DevelopfindAllStore() {
-        List<DevelopFindAllStoreResDto> findAllStoreResDtoList = storeJpaRepository.findAllByIsApplicationApproval(false)
+    public List<DevelopFindAllStoreResDto> DevelopFindAllStore() {
+        return storeJpaRepository.findAllByIsApplicationApproval(false)
                 .stream().map(m -> mapper.map(m, DevelopFindAllStoreResDto.class))
                 .collect(Collectors.toList());
-        return findAllStoreResDtoList;
     }
 
     @Override
@@ -73,8 +68,7 @@ public class StoreServiceImpl implements StoreService {
                 .map(m -> mapper.map(m, DevelopFindStoreByIdxResDto.class))
                 .orElseThrow(CStoreNotFoundException::new);
 
-        Store store = storeJpaRepository.findById(storeIdx).orElseThrow(CStoreNotFoundException::new);
-        List<FindByPhotoResDto> collect = store.getPhotos()
+        List<FindByPhotoResDto> collect = findByStoreIdx(storeIdx).getPhotos()
                 .stream().map(m -> mapper.map(m, FindByPhotoResDto.class))
                 .collect(Collectors.toList());
 
@@ -87,5 +81,30 @@ public class StoreServiceImpl implements StoreService {
     public void updateApprovalStore(Long storeIdx) {
         Store findStoreByIdx = storeJpaRepository.findById(storeIdx).orElseThrow(CStoreNotFoundException::new);
         findStoreByIdx.updateIsApplicationApproval();
+    }
+
+    @Override
+    public List<AnonymousFindAllStoreResDto> anonymousFindAllStore() {
+        return storeJpaRepository.findAll()
+                .stream().map(m -> mapper.map(m, AnonymousFindAllStoreResDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public AnonymousFindStoreByIdxResDto anonymousFindSingleStore(Long idx) {
+        AnonymousFindStoreByIdxResDto anonymousFindStoreByIdxResDto = storeJpaRepository.findById(idx)
+                .map(m -> mapper.map(m, AnonymousFindStoreByIdxResDto.class))
+                .orElseThrow(CStoreNotFoundException::new);
+
+        List<FindByPhotoResDto> collect =  findByStoreIdx(idx).getPhotos()
+                .stream().map(m -> mapper.map(m, FindByPhotoResDto.class))
+                .collect(Collectors.toList());
+
+        anonymousFindStoreByIdxResDto.setFindByPhotos(collect);
+        return anonymousFindStoreByIdxResDto;
+    }
+
+    private Store findByStoreIdx(Long idx){
+        return storeJpaRepository.findById(idx).orElseThrow(CStoreNotFoundException::new);
     }
 }

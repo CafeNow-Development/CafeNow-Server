@@ -1,8 +1,6 @@
 package com.java.cafenow.store.controller;
 
-import com.java.cafenow.store.dto.DevelopFindAllStoreResDto;
-import com.java.cafenow.store.dto.DevelopFindStoreByIdxResDto;
-import com.java.cafenow.store.dto.SaveStoreReqDto;
+import com.java.cafenow.store.dto.*;
 import com.java.cafenow.store.service.StoreService;
 import com.java.cafenow.util.response.domain.CommonResult;
 import com.java.cafenow.util.response.domain.ListResult;
@@ -43,7 +41,7 @@ public class StoreController {
     @ResponseBody
     @GetMapping("/develop/store")
     public ListResult<DevelopFindAllStoreResDto> findAllStore() {
-        List<DevelopFindAllStoreResDto> findAllStoreResDtoList = storeService.DevelopfindAllStore();
+        List<DevelopFindAllStoreResDto> findAllStoreResDtoList = storeService.DevelopFindAllStore();
         return responseService.getListResult(findAllStoreResDtoList);
     }
 
@@ -75,5 +73,27 @@ public class StoreController {
             System.out.println("file = " + file.getOriginalFilename());
         }
         return responseService.getSuccessResult();
+    }
+
+    @ApiOperation(value = "Anonymous 매장 전체 조회", notes = "익명의 사용자가 매장을 전체 조회한다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @ResponseBody
+    @GetMapping("/store")
+    public ListResult<AnonymousFindAllStoreResDto> findAllStoreAnonymous() {
+        List<AnonymousFindAllStoreResDto> anonymousFindAllStore = storeService.anonymousFindAllStore();
+        return responseService.getListResult(anonymousFindAllStore);
+    }
+
+    @ApiOperation(value = "Anonymous 매장 단일 조회", notes = "익명의 사용자가 매장을 단일 조회한다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @ResponseBody
+    @GetMapping("/store/{storeidx}")
+    public SingleResult<AnonymousFindStoreByIdxResDto> findStoreByIdxAnonymous(@PathVariable Long storeidx) {
+        AnonymousFindStoreByIdxResDto anonymousFindStoreByIdxResDto = storeService.anonymousFindSingleStore(storeidx);
+        return responseService.getSingleResult(anonymousFindStoreByIdxResDto);
     }
 }
