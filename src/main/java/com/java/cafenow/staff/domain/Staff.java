@@ -3,10 +3,7 @@ package com.java.cafenow.staff.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.java.cafenow.kakao_login.domain.Admin;
 import com.java.cafenow.kakao_login.domain.enumType.Role;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static javax.persistence.EnumType.STRING;
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
 @Getter
@@ -25,12 +23,13 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@ToString
 @Table(name = "staff")
 public class Staff implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long staffIdx;
+    private long staffIdx;
 
     @Column(nullable = false, unique = true, length = 30)
     private String staffEmail;
@@ -50,7 +49,7 @@ public class Staff implements UserDetails {
     private Admin admin;
 
     @Enumerated(STRING) @Column(name = "role")
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = EAGER)
     @CollectionTable(name = "role_staff", joinColumns = @JoinColumn(name = "staff_id"))
     @Builder.Default
     private List<Role> roles = new ArrayList<>();

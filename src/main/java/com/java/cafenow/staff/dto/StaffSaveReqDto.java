@@ -1,12 +1,14 @@
 package com.java.cafenow.staff.dto;
 
 import com.java.cafenow.kakao_login.domain.Admin;
+import com.java.cafenow.kakao_login.domain.enumType.Role;
 import com.java.cafenow.staff.domain.Staff;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import java.util.Collections;
 
 @Data
 @NoArgsConstructor
@@ -31,6 +33,8 @@ public class StaffSaveReqDto {
                 .staffPassword(this.staffPassword)
                 .staffName(this.staffName)
                 .staffPhoneNumber(this.staffPhoneNumber)
+                .admin(admin)
+                .roles(Collections.singletonList(Role.ROLE_STAFF))
                 .build();
     }
 }

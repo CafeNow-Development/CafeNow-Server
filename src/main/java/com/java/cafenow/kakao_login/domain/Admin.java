@@ -23,7 +23,7 @@ import static javax.persistence.EnumType.STRING;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user")
+@Table(name = "admin")
 public class Admin implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,7 +64,7 @@ public class Admin implements UserDetails {
 
     @Enumerated(STRING) @Column(name = "role")
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "role_admin", joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name = "role_admin", joinColumns = @JoinColumn(name = "adminIdx"))
     @Builder.Default
     private List<Role> roles = new ArrayList<>();
 

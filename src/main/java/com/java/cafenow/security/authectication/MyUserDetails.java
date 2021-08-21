@@ -24,6 +24,6 @@ public class MyUserDetails implements UserDetailsService {
     }
 
     public UserDetails CustomLoadUserByUsername(String email) {
-        return staffJpaRepository.findByStaffEmail(email);
+        return staffJpaRepository.findByStaffEmail(email).get();
     }
 }

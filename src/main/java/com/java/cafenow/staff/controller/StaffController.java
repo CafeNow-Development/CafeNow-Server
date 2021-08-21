@@ -12,10 +12,9 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Api(tags = {"3. Staff"})
 @RequiredArgsConstructor
@@ -32,7 +31,7 @@ public class StaffController {
     })
     @ResponseBody
     @PostMapping("/admin/register/staff")
-    public CommonResult saveStore(StaffSaveReqDto staffSaveReqDto) throws Exception {
+    public CommonResult saveStore(@Valid @RequestBody StaffSaveReqDto staffSaveReqDto) throws Exception {
         staffService.saveStaff(staffSaveReqDto);
         return responseService.getSuccessResult();
     }
@@ -40,7 +39,7 @@ public class StaffController {
     @ApiOperation(value = "Staff 로그인", notes = "스탭이 로그인한다.")
     @ResponseBody
     @PostMapping("/login/staff")
-    public SingleResult<StaffLoginResDto> saveStore(StaffLoginReqDto staffLoginReqDto) throws Exception {
+    public SingleResult<StaffLoginResDto> saveStore(@Valid @RequestBody StaffLoginReqDto staffLoginReqDto) throws Exception {
         StaffLoginResDto staffLoginResDto = staffService.loginStaff(staffLoginReqDto);
         return responseService.getSingleResult(staffLoginResDto);
     }

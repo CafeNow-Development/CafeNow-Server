@@ -28,6 +28,7 @@ public class StaffServiceImpl implements StaffService {
     private final CurrentAdminUtil currentAdminUtil;
     private final StoreJpaRepository storeJpaRepository;
 
+    @Transactional
     @Override
     public void saveStaff(StaffSaveReqDto staffSaveReqDto) throws Exception {
         Admin currentAdmin = currentAdminUtil.getCurrentAdmin();
@@ -55,7 +56,7 @@ public class StaffServiceImpl implements StaffService {
         String accessToken = null;
         String roles = null;
         StaffLoginResDto staffLoginResDto = null;
-        Staff staff = staffJpaRepository.findByStaffEmail(staffLoginResDto.getStaffEmail()).orElseThrow();
+        Staff staff = staffJpaRepository.findByStaffEmail(staffLoginReqDto.getStaffEmail()).orElseThrow(null);
         if(staff != null) {
             boolean check = passwordEncoder.matches(staffLoginReqDto.getStaffPassword(), staff.getStaffPassword());
             if(!check) {
