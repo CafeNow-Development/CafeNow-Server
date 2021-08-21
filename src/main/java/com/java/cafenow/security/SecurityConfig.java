@@ -7,6 +7,7 @@ import com.java.cafenow.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -35,12 +36,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-                .antMatchers("/*/login/**").permitAll()
-                .antMatchers("/*/register/**").permitAll()
-                .antMatchers("/social/**").permitAll()
-                .antMatchers("/*/kakao-info-token").permitAll()
-                .antMatchers("/*/admin/store").permitAll()
-                .anyRequest().hasAnyRole("CLIENT", "ADMIN_NOT_PERMIT", "ADMIN_PERMIT");
+                .antMatchers("/*/login/**").permitAll() // Admin, Staff 로그인
+                .antMatchers("/*/register/**").permitAll() // Admin Kakao 회원가입
+                .antMatchers("/*/store/review/**", "/*/store/search", "/*/store/{\\d+}", "/*/store").permitAll() // 매장 리뷰 작성, 매장 검색 조회, Anonymous 매장 단일 조회, Anonymous 매장 전체 조회
+                .antMatchers("/*/admin/**").hasAnyRole("ADMIN") // 카페 사장님 권한
+        ;
 
         // ExceptionHandling
         http.exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint());

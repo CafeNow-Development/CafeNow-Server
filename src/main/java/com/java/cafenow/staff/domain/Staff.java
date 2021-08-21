@@ -1,70 +1,56 @@
-package com.java.cafenow.kakao_login.domain;
+package com.java.cafenow.staff.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.java.cafenow.store.domain.Store;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.java.cafenow.kakao_login.domain.Admin;
+import com.java.cafenow.kakao_login.domain.enumType.Role;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import com.java.cafenow.kakao_login.domain.enumType.Role;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
-import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
+import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.FetchType.LAZY;
 
-@Builder
-@Entity
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "admin")
-public class Admin implements UserDetails {
+@Entity
+@ToString
+@Table(name = "staff")
+public class Staff implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long adminIdx;
+    private long staffIdx;
 
     @Column(nullable = false, unique = true, length = 30)
-    private String email;
+    private String staffEmail;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(length = 100)
-    private String password;
+    @Column(nullable = false, length = 100)
+    private String staffPassword;
 
     @Column(nullable = false, length = 100)
-    private String name;
+    private String staffName;
 
-    @Column(length = 100)
-    private String provider;
+    @Column(nullable = false, length = 100)
+    private String staffPhoneNumber;
 
-    @Column(length = 500)
-    private String profile_image_url;
-
-    @Column(length = 500)
-    private String thumbnail_image_url;
-
-    /*
-        이메일 유효 여부
-        turn : 유효한 이메일
-        false : 이메일이 다른 카카오계정에 사용돼 만료
-     */
-    private Boolean is_email_valid;
-
-    /*
-        이메일 인증 여부
-        turn : 인증된 이메일
-        false : 인증되지 않은 이메일
-     */
-    private Boolean is_email_verified;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "adminIdx")
+    private Admin admin;
 
     @Enumerated(STRING) @Column(name = "role")
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "role_admin", joinColumns = @JoinColumn(name = "adminIdx"))
+    @ElementCollection(fetch = EAGER)
+    @CollectionTable(name = "role_staff", joinColumns = @JoinColumn(name = "staff_id"))
     @Builder.Default
     private List<Role> roles = new ArrayList<>();
 
@@ -81,29 +67,30 @@ public class Admin implements UserDetails {
     }
 
     @Override
-    public String getUsername() {
-        return this.email;
+    public String getPassword() {
+        return null;
     }
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Override
+    public String getUsername() {
+        return this.staffEmail;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public boolean isEnabled() {
         return true;
