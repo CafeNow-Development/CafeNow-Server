@@ -3,6 +3,7 @@ package com.java.cafenow.staff.service;
 import com.java.cafenow.kakao_login.domain.Admin;
 import com.java.cafenow.security.jwt.JwtTokenProvider;
 import com.java.cafenow.staff.domain.Staff;
+import com.java.cafenow.staff.dto.StaffFindResDto;
 import com.java.cafenow.staff.dto.StaffLoginReqDto;
 import com.java.cafenow.staff.dto.StaffLoginResDto;
 import com.java.cafenow.staff.dto.StaffSaveReqDto;
@@ -11,11 +12,14 @@ import com.java.cafenow.store.domain.Store;
 import com.java.cafenow.store.repository.StoreJpaRepository;
 import com.java.cafenow.util.CurrentAdminUtil;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +31,7 @@ public class StaffServiceImpl implements StaffService {
     private final StaffJpaRepository staffJpaRepository;
     private final CurrentAdminUtil currentAdminUtil;
     private final StoreJpaRepository storeJpaRepository;
+    private final ModelMapper mapper;
 
     @Transactional
     @Override
@@ -77,5 +82,19 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public void deleteStaff(Long idx) {
         staffJpaRepository.deleteById(idx);
+    }
+
+    @Override
+    public List<StaffFindResDto> findAll() {
+        return staffJpaRepository.findAll()
+                .stream().map(m -> mapper.map(m, StaffFindResDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public StaffFindResDto findByIdx(Long idx) {
+        return staffJpaRepository.findById(idx)
+                .map(m -> mapper.map(m, StaffFindResDto.class))
+                .orElseThrow(null);
     }
 }
