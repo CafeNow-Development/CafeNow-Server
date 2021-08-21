@@ -22,7 +22,7 @@ public class RegisterReqDto {
                 .email(profile.getEmail())
                 .provider(provider)
                 .name(profile.getNickName())
-                .roles(Collections.singletonList(Role.ROLE_ADMIN_NOT_PERMIT))
+                .roles(Collections.singletonList(Role.ROLE_ADMIN))
                 .profile_image_url(profile.getProfile_image_url())
                 .thumbnail_image_url(profile.getThumbnail_image_url())
                 .is_email_valid(profile.getIs_email_valid())

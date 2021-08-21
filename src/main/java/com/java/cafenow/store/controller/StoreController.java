@@ -40,7 +40,7 @@ public class StoreController {
             @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @ResponseBody
-    @DeleteMapping("/store/{storeidx}")
+    @DeleteMapping("/admin/store/{storeidx}")
     public CommonResult deleteStoreByIdx(@PathVariable Long storeidx) {
         storeService.deleteStore(storeidx);
         return responseService.getSuccessResult();
@@ -80,9 +80,6 @@ public class StoreController {
     }
 
     @ApiOperation(value = "Anonymous 매장 전체 조회", notes = "익명의 사용자가 매장을 전체 조회한다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
     @ResponseBody
     @GetMapping("/store")
     public ListResult<AnonymousFindAllStoreResDto> findAllStoreAnonymous() {
@@ -91,9 +88,6 @@ public class StoreController {
     }
 
     @ApiOperation(value = "Anonymous 매장 단일 조회", notes = "익명의 사용자가 매장을 단일 조회한다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
     @ResponseBody
     @GetMapping("/store/{storeidx}")
     public SingleResult<AnonymousFindStoreByIdxResDto> findStoreByIdxAnonymous(@PathVariable Long storeidx) {
@@ -102,9 +96,6 @@ public class StoreController {
     }
 
     @ApiOperation(value = "매장 검색 조회 (카페 이름, 주소)", notes = "매장을 검색한다. (카페 이름, 주소 기준)")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
     @ResponseBody
     @GetMapping("/store/search")
     public ListResult<AnonymousFindAllStoreResDto> findAllByKeyWord(@RequestParam String keyword) {
@@ -113,9 +104,6 @@ public class StoreController {
     }
 
     @ApiOperation(value = "매장 리뷰 작성", notes = "매장 리뷰를 작성한다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
     @ResponseBody
     @PostMapping("/store/review/{storeIdx}")
     public CommonResult saveReview(@Valid @RequestBody SaveReViewReqDto saveReViewReqDto, @PathVariable Long storeIdx) {
