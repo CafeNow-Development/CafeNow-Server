@@ -1,6 +1,8 @@
 package com.java.cafenow.kakao_login.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.java.cafenow.staff.domain.Staff;
+import com.java.cafenow.store.domain.Photo;
 import com.java.cafenow.store.domain.Store;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -107,5 +109,23 @@ public class Admin implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+
+    @OneToMany(
+            mappedBy = "admin",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true
+    )
+    private List<Staff> staffs = new ArrayList<>();
+
+    // Store에서 파일 처리 위함
+    public void addStaff(Staff staff) {
+        this.staffs.add(staff);
+
+        // 게시글에 파일이 저장되어있지 않은 경우
+        if(staff.getAdmin() != this)
+            // 파일 저장
+            staff.setAdmin(this);
     }
 }

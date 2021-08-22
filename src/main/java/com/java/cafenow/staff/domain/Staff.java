@@ -3,6 +3,7 @@ package com.java.cafenow.staff.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.java.cafenow.kakao_login.domain.Admin;
 import com.java.cafenow.kakao_login.domain.enumType.Role;
+import com.java.cafenow.store.domain.Store;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -47,6 +48,15 @@ public class Staff implements UserDetails {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "adminIdx")
     private Admin admin;
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+
+        // 게시글에 현재 파일이 존재하지 않는다면
+        if(!admin.getStaffs().contains(this))
+            // 파일 추가
+            admin.getStaffs().add(this);
+    }
 
     @Enumerated(STRING) @Column(name = "role")
     @ElementCollection(fetch = EAGER)

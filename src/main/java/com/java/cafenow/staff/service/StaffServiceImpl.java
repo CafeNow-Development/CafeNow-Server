@@ -44,14 +44,14 @@ public class StaffServiceImpl implements StaffService {
         if(staff.isEmpty()) {
             String password = staffSaveReqDto.getStaffPassword();
             staffSaveReqDto.setStaffPassword(passwordEncoder.encode(password));
-            staffJpaRepository.save(staffSaveReqDto.saveStaff(currentAdmin));
+            currentAdmin.addStaff(staffJpaRepository.save(staffSaveReqDto.saveStaff(currentAdmin)));
         } else {
             throw new Exception("스탭 이메일이 중복 되었습니다.");
         }
     }
 
     public void checkAdmin(Store store) throws Exception {
-        if(store.getIsApplicationApproval() == false) {
+        if(!store.getIsApplicationApproval()) {
             throw new Exception("아직 인증 되지 않는 매장 입니다. 인증을 기다려 주세요.");
         }
     }
