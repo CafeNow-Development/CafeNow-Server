@@ -1,5 +1,6 @@
 package com.java.cafenow.store.dto.store;
 
+import com.java.cafenow.kakao_login.domain.Admin;
 import com.java.cafenow.store.domain.enumType.Business;
 import com.java.cafenow.store.dto.photo.FindByPhotoResDto;
 import com.java.cafenow.store.dto.review.FindAllReviewResDto;
@@ -15,6 +16,7 @@ import java.util.List;
 public class AnonymousFindStoreByIdxResDto {
 
     private Long storeIdx;
+    private String adminName;
     private String cafeName;
     private String address;
     private String cafeNumber;
@@ -25,5 +27,5 @@ public class AnonymousFindStoreByIdxResDto {
     private Business business;
     List<FindByPhotoResDto> findByPhotos;
     List<FindAllReviewResDto> findAllReviewRes;
-
+    List<FindByStaff> findByStaffs;
 }

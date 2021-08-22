@@ -3,10 +3,7 @@ package com.java.cafenow.store.domain;
 import com.java.cafenow.kakao_login.domain.Admin;
 import com.java.cafenow.store.domain.enumType.Business;
 import com.java.cafenow.store.dto.store.SaveStoreReqDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -21,6 +18,7 @@ import static javax.persistence.FetchType.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "store")
+@ToString
 public class Store {
 
     @Id

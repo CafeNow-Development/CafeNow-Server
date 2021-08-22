@@ -16,6 +16,7 @@ import com.java.cafenow.store.repository.StoreJpaRepository;
 import com.java.cafenow.util.CurrentAdminUtil;
 import com.java.cafenow.util.photo.S3Uploader;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class StoreServiceImpl implements StoreService {
 
     private final StoreJpaRepository storeJpaRepository;
@@ -99,21 +101,33 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public AnonymousFindStoreByIdxResDto anonymousFindSingleStore(Long idx) {
-        AnonymousFindStoreByIdxResDto anonymousFindStoreByIdxResDto = storeJpaRepository.findById(idx)
-                .map(m -> mapper.map(m, AnonymousFindStoreByIdxResDto.class))
-                .orElseThrow(CStoreNotFoundException::new);
 
-        Store byStoreIdx = findByStoreIdx(idx);
-        List<FindByPhotoResDto> findByPhotoResDtos =  byStoreIdx.getPhotos()
+        log.info("Store Fetch Admin 조회");
+        Optional<Store> store = storeJpaRepository.searchByIdx(idx);
+
+        log.info("첫번째 DTO");
+        AnonymousFindStoreByIdxResDto anonymousFindStoreByIdxResDto = store
+                .map(m -> mapper.map(m, AnonymousFindStoreByIdxResDto.class))
+                .orElseThrow(null);
+
+        log.info("두번째 DTO");
+        List<FindByPhotoResDto> findByPhotoResDtos =  store.get().getPhotos()
                 .stream().map(m -> mapper.map(m, FindByPhotoResDto.class))
                 .collect(Collectors.toList());
 
-        List<FindAllReviewResDto> findAllReviewResDtos = byStoreIdx.getReviews()
+        log.info("세번째 DTO");
+        List<FindAllReviewResDto> findAllReviewResDtos = store.get().getReviews()
                 .stream().map(m -> mapper.map(m, FindAllReviewResDto.class))
                 .collect(Collectors.toList());
 
+        log.info("네번째 DTO");
+        List<FindByStaff> findByStaffList = store.get().getAdmin().getStaffs()
+                        .stream().map(m -> mapper.map(m, FindByStaff.class))
+                        .collect(Collectors.toList());
+
         anonymousFindStoreByIdxResDto.setFindByPhotos(findByPhotoResDtos);
         anonymousFindStoreByIdxResDto.setFindAllReviewRes(findAllReviewResDtos);
+        anonymousFindStoreByIdxResDto.setFindByStaffs(findByStaffList);
         return anonymousFindStoreByIdxResDto;
     }
 
