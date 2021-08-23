@@ -89,7 +89,7 @@ public class S3Uploader {
     }
 
     private Optional<File> convert(MultipartFile file) throws IOException {
-        File convertFile = new File(imgNameMake(file)); // 파일이름을 원래 파일이름 + 날짜 형식으로 저장
+        File convertFile = new File("src/main/resources/image/"+imgNameMake(file)); // 파일이름을 원래 파일이름 + 날짜 형식으로 저장
         if(convertFile.createNewFile()) {
             try (FileOutputStream fos = new FileOutputStream(convertFile)) {
                 fos.write(file.getBytes());

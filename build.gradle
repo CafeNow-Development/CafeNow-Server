@@ -28,6 +28,7 @@ dependencies {
 
     // *** SMS SKD *** //
     implementation 'net.nurigo:javaSDK:2.2'
+    implementation 'org.jetbrains:annotations:20.1.0'
     compileOnly 'net.nurigo:javaSDK:2.2'
     annotationProcessor 'net.nurigo:javaSDK:2.2'
     testAnnotationProcessor 'net.nurigo:javaSDK:2.2'

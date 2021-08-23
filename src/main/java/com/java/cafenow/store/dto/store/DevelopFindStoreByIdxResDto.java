@@ -1,5 +1,6 @@
 package com.java.cafenow.store.dto.store;
 
+import com.java.cafenow.kakao_login.domain.Admin;
 import com.java.cafenow.store.dto.photo.FindByPhotoResDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,4 +24,5 @@ public class DevelopFindStoreByIdxResDto {
     private String cafeWeekendHour;
     private String cafeWeekdayHour;
     List<FindByPhotoResDto> findByPhotos;
+    Admin admin;
 }
