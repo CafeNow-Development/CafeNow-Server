@@ -14,11 +14,11 @@ import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.*;
 
 @Entity
+@ToString
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "store")
-@ToString
 public class Store {
 
     @Id
