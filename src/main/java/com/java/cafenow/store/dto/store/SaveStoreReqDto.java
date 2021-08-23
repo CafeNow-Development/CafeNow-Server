@@ -3,6 +3,7 @@ package com.java.cafenow.store.dto.store;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,9 +12,11 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class SaveStoreReqDto {
 
-    // 카페 사장님이 매장을 등록할 때 사용하는 정보 => 요청
+    // 카페 사장님이 매장을 등록할 때 사용하는
+    // 정보 => 요청
     @NotBlank(message = "사업자 번호를 입력해주세요.")
     private String businessNumber;
 
