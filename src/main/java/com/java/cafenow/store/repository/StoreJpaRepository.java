@@ -18,6 +18,6 @@ public interface StoreJpaRepository extends JpaRepository<Store, Long> {
     @Query("select s from Store s where s.cafeName like %:keyWord% or s.address like %:keyWord% order by s.storeIdx desc")
     List<Store> searchKeyword(String keyWord);
 
-    @Query("select s from Store s join fetch s.admin where s.storeIdx = :idx")
+    @Query("select s from Store s join fetch s.admin a join fetch a.roles where s.storeIdx = :idx")
     Optional<Store> searchByIdx(Long idx);
 }
