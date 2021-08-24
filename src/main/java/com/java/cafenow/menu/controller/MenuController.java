@@ -1,9 +1,10 @@
 package com.java.cafenow.menu.controller;
 
+import com.java.cafenow.menu.dto.FindMenuByIdxResDto;
 import com.java.cafenow.menu.dto.SaveMenuReqDto;
 import com.java.cafenow.menu.service.MenuService;
-import com.java.cafenow.staff.dto.StaffSaveReqDto;
 import com.java.cafenow.util.response.domain.CommonResult;
+import com.java.cafenow.util.response.domain.SingleResult;
 import com.java.cafenow.util.response.service.ResponseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -11,8 +12,6 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @Api(tags = {"4. Menu"})
 @RequiredArgsConstructor
@@ -29,9 +28,16 @@ public class MenuController {
     })
     @ResponseBody
     @PostMapping("/cafe/menu/{storeIdx}")
-    public CommonResult saveStore(@RequestBody SaveMenuReqDto saveMenuReqDto, @PathVariable Long storeIdx) throws Exception {
+    public CommonResult saveMenu(@RequestBody SaveMenuReqDto saveMenuReqDto, @PathVariable Long storeIdx) throws Exception {
         menuService.saveMenu(saveMenuReqDto, storeIdx);
         return responseService.getSuccessResult();
     }
 
+    @ApiOperation(value = "메뉴 단일 조회", notes = "메뉴를 단일 조회한다.")
+    @ResponseBody
+    @GetMapping("/cafe/menu/get/{menuIdx}")
+    public SingleResult<FindMenuByIdxResDto> getMenu(@PathVariable Long menuIdx) throws Exception {
+        FindMenuByIdxResDto menu = menuService.findMenu(menuIdx);
+        return responseService.getSingleResult(menu);
+    }
 }

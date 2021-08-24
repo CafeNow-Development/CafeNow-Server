@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/*/login/**").permitAll() // Admin, Staff 로그인
                 .antMatchers("/*/register/**").permitAll() // Admin Kakao 회원가입
-                .antMatchers("/*/store/review/**", "/*/store/search", "/*/store/{\\d+}", "/*/store").permitAll() // 매장 리뷰 작성, 매장 검색 조회, Anonymous 매장 단일 조회, Anonymous 매장 전체 조회
+                .antMatchers("/*/store/review/**", "/*/store/search", "/*/store/{\\d+}", "/*/store", "/cafe/menu/get/{\\d+}").permitAll() // 매장 리뷰 작성, 매장 검색 조회, Anonymous 매장 단일 조회, Anonymous 매장 전체 조회
                 .antMatchers("/*/admin/**").hasAnyRole("ADMIN") // 카페 사장님 권한
         ;
 
