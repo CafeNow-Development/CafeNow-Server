@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
 
@@ -41,5 +44,22 @@ public class MenuItem {
         if(!menu.getMenuItems().contains(this))
             // 파일 추가
             menu.getMenuItems().add(this);
+    }
+
+    @Builder.Default
+    @OneToMany(
+            mappedBy = "menuItem",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true
+    )
+    private List<ItemOption> itemOptions = new ArrayList<>();
+
+    public void addItemOption(ItemOption itemOption) {
+        this.itemOptions.add(itemOption);
+
+        // 게시글에 파일이 저장되어있지 않은 경우
+        if(itemOption.getMenuItem() != this)
+            // 파일 저장
+            itemOption.setMenuItem(this);
     }
 }
