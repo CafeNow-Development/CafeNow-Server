@@ -4,29 +4,23 @@ import com.java.cafenow.menu.domain.Menu;
 import com.java.cafenow.menu.domain.MenuItem;
 import com.java.cafenow.menu.domain.enumType.MenuItemType;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-
-import javax.validation.constraints.NotBlank;
 
 @Data
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class SaveMenuItemReqDto {
 
-    @NotBlank(message = "메뉴 아이템 제목을 입력해주세요.")
-    private String MenuItemTitle;
-
-    @NotBlank(message = "타입을 입력해줏오ㅛ/")
+    private String menuItemTitle;
     private MenuItemType menuItemType;
 
-    public MenuItem saveMenuItem(Menu menu) {
+    public MenuItem saveMenuItem() {
         return MenuItem.builder()
-                .menuItemTitle(this.MenuItemTitle)
+                .menuItemTitle(this.menuItemTitle)
                 .menuItemType(this.menuItemType)
-                .menu(menu)
                 .build();
     }
 }

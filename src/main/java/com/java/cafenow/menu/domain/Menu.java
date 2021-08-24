@@ -1,21 +1,22 @@
 package com.java.cafenow.menu.domain;
 
+import com.java.cafenow.staff.domain.Staff;
 import com.java.cafenow.store.domain.Store;
 import lombok.*;
 
 import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
-@Entity
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 @Table(name = "menu")
-@ToString
 public class Menu {
 
     @Id
@@ -29,30 +30,20 @@ public class Menu {
     private String menuDesc;
 
     @Column(length = 10000)
-    private String menuImage;
+    private String menuImagePath;
 
-    @ManyToOne(targetEntity = Store.class, fetch = LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "storeIdx")
-    @ToString.Exclude
     private Store store;
 
+    @Builder.Default
     @OneToMany(
             mappedBy = "menu",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             orphanRemoval = true
     )
-    @ToString.Exclude
     private List<MenuItem> menuItems = new ArrayList<>();
 
-    public void setMenuItems(List<MenuItem> menuItems) {
-        this.menuItems = menuItems;
-    }
-
-    public void setStore(Store store) {
-        this.store = store;
-    }
-
-    // Menu에서 파일 처리 위함
     public void addMenuItem(MenuItem menuItem) {
         this.menuItems.add(menuItem);
 

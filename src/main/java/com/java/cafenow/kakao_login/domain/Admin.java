@@ -111,7 +111,6 @@ public class Admin implements UserDetails {
         return true;
     }
 
-
     @OneToMany(
             mappedBy = "admin",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},

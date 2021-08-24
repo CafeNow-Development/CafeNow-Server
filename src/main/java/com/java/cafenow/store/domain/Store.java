@@ -23,7 +23,7 @@ public class Store {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long storeIdx;
+    private Long storeIdx;
 
     @Column(nullable = false, length = 100)
     private String businessNumber;
