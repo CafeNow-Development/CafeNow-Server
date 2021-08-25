@@ -49,24 +49,28 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public FindMenuByIdxResDto findMenu(Long menuIdx) {
         FindMenuByIdxResDto findMenuByIdxResDto = new FindMenuByIdxResDto();
-        List<FindItemOptionResDto> findItemOptionResDtoList = new ArrayList<>();
 
         Menu menu = menuJpaRepository.findById(menuIdx).orElseThrow(null);
-        System.out.println("메뉴 확인 : " + menu.getMenuName());
-        findMenuByIdxResDto.mapping(menu);
 
         List<MenuItem> menuItems = menu.getMenuItems();
         List<FindMenuItemResDto> findMenuItemResDtoList = menuItems.stream()
                 .map(m -> mapper.map(m, FindMenuItemResDto.class))
                 .collect(Collectors.toList());
 
+        for (MenuItem menuItem : menuItems) {
+            List<FindItemOptionResDto> findItemOptionResDtoList = itemOptionJpaRepository.findAllByMenuItem(menuItem).stream().map(m -> mapper.map(m, FindItemOptionResDto.class)).collect(Collectors.toList());
+            for (FindMenuItemResDto findMenuItemResDto : findMenuItemResDtoList) {
+                for (FindItemOptionResDto findItemOptionResDto : findItemOptionResDtoList) {
+                    if(findItemOptionResDto.getMenuItem().getMenuItemTitle().equals(findMenuItemResDto.getMenuItemTitle())) {
+                        findMenuItemResDto.getFindItemOptionResDtoList().add(findItemOptionResDto);
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
 
-        // Option 저장
-
-
-
-
-
+        findMenuByIdxResDto.mapping(menu);
         findMenuByIdxResDto.setFindMenuItemResDtoList(findMenuItemResDtoList);
         return findMenuByIdxResDto;
     }

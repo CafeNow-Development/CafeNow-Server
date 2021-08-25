@@ -46,13 +46,13 @@ public class StoreServiceImpl implements StoreService {
         businessNumberCheck(saveStoreReqDto.getBusinessNumber());
         Admin currentAdmin = currentAdminUtil.getCurrentAdmin();
         Store store = new Store(saveStoreReqDto, currentAdmin);
-        List<Photo> photos = s3Uploader.upload_image(files, "static");
-        //파일이 존재할 때만 처리
-        if(!photos.isEmpty()) {
-            for (Photo photo : photos) {
-                store.addPhoto(photoJpaRepository.save(photo));
-            }
-        }
+//        List<Photo> photos = s3Uploader.upload_image(files, "static");
+//        //파일이 존재할 때만 처리
+//        if(!photos.isEmpty()) {
+//            for (Photo photo : photos) {
+//                store.addPhoto(photoJpaRepository.save(photo));
+//            }
+//        }
         storeJpaRepository.save(store);
     }
 

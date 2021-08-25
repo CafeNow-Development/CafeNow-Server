@@ -2,10 +2,7 @@ package com.java.cafenow.menu.domain;
 
 import com.java.cafenow.kakao_login.domain.Admin;
 import com.java.cafenow.menu.domain.enumType.MenuItemType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -21,6 +18,7 @@ import static javax.persistence.FetchType.LAZY;
 @AllArgsConstructor
 @Entity
 @Table(name = "menuItem")
+@ToString
 public class MenuItem {
 
     @Id
