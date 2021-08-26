@@ -17,6 +17,7 @@ public class FindMenuByIdxResDto {
 
     private Long menuIdx;
     private String menuName;
+    private int menuPrice;
     private String menuDesc;
 
     @Builder.Default
@@ -24,6 +25,7 @@ public class FindMenuByIdxResDto {
 
     public void mapping(Menu menu) {
         this.menuIdx = menu.getMenuIdx();
+        this.menuPrice = menu.getMenuPrice();
         this.menuName = menu.getMenuName();
         this.menuDesc = menu.getMenuDesc();
     }

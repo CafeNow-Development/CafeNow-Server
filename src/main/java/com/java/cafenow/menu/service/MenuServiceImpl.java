@@ -75,6 +75,17 @@ public class MenuServiceImpl implements MenuService {
         return findMenuByIdxResDto;
     }
 
+    @Override
+    public List<FindAllMenuResDto> findAllMenu(Long storeIdx) {
+        Store store = storeJpaRepository.findById(storeIdx).orElseThrow(CStoreNotFoundException::new);
+
+        List<FindAllMenuResDto> findAllMenuResDtoList = menuJpaRepository.findAllByStore(store).stream()
+                .map(m -> mapper.map(m, FindAllMenuResDto.class))
+                .collect(Collectors.toList());
+
+        return findAllMenuResDtoList;
+    }
+
 
     // 전체 조회
 

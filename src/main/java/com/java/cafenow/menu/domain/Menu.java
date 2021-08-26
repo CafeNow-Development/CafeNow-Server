@@ -29,6 +29,8 @@ public class Menu {
     @Column(length = 50000)
     private String menuDesc;
 
+    private int menuPrice;
+
     @Column(length = 10000)
     private String menuImagePath;
 

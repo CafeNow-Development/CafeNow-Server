@@ -1,9 +1,11 @@
 package com.java.cafenow.menu.controller;
 
+import com.java.cafenow.menu.dto.FindAllMenuResDto;
 import com.java.cafenow.menu.dto.FindMenuByIdxResDto;
 import com.java.cafenow.menu.dto.SaveMenuReqDto;
 import com.java.cafenow.menu.service.MenuService;
 import com.java.cafenow.util.response.domain.CommonResult;
+import com.java.cafenow.util.response.domain.ListResult;
 import com.java.cafenow.util.response.domain.SingleResult;
 import com.java.cafenow.util.response.service.ResponseService;
 import io.swagger.annotations.Api;
@@ -12,6 +14,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(tags = {"4. Menu"})
 @RequiredArgsConstructor
@@ -31,6 +35,14 @@ public class MenuController {
     public CommonResult saveMenu(@RequestBody SaveMenuReqDto saveMenuReqDto, @PathVariable Long storeIdx) throws Exception {
         menuService.saveMenu(saveMenuReqDto, storeIdx);
         return responseService.getSuccessResult();
+    }
+
+    @ApiOperation(value = "메뉴 전체 조회", notes = "메뉴를 단일 조회한다.")
+    @ResponseBody
+    @GetMapping("/cafe/menu/all/{storeIdx}")
+    public ListResult<FindAllMenuResDto> AllMenu(@PathVariable Long storeIdx) throws Exception {
+        List<FindAllMenuResDto> allMenu = menuService.findAllMenu(storeIdx);
+        return responseService.getListResult(allMenu);
     }
 
     @ApiOperation(value = "메뉴 단일 조회", notes = "메뉴를 단일 조회한다.")

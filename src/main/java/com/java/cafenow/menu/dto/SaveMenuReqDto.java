@@ -17,11 +17,13 @@ public class SaveMenuReqDto {
 
     private String menuName;
     private String menuDesc;
+    private int menuPrice;
 
     public Menu saveMenu(Store store) {
         return Menu.builder()
                 .menuName(this.menuName)
                 .menuDesc(this.menuDesc)
+                .menuPrice(this.menuPrice)
                 .store(store)
                 .build();
     }
