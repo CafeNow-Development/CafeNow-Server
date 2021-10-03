@@ -1,7 +1,6 @@
 package com.java.cafenow.menu.service;
 
 import com.java.cafenow.advice.exception.CStoreNotFoundException;
-import com.java.cafenow.menu.domain.ItemOption;
 import com.java.cafenow.menu.domain.Menu;
 import com.java.cafenow.menu.domain.MenuItem;
 import com.java.cafenow.menu.dto.*;
@@ -16,7 +15,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
