@@ -68,6 +68,8 @@ public class MenuServiceImpl implements MenuService {
             }
         }
 
+        // 삼중 포문 => 완전 탐색 재귀 사용
+
         findMenuByIdxResDto.mapping(menu);
         findMenuByIdxResDto.setFindMenuItemResDtoList(findMenuItemResDtoList);
         return findMenuByIdxResDto;
@@ -83,8 +85,6 @@ public class MenuServiceImpl implements MenuService {
 
         return findAllMenuResDtoList;
     }
-
-
     // 전체 조회
 
 

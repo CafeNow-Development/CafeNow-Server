@@ -9,6 +9,7 @@ import lombok.ToString;
 @ToString
 public class KakaoProfile {
     private Long id;
+
     private kakao_account kakao_account;
 
     public Long getId() {
