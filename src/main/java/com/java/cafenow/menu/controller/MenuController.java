@@ -1,8 +1,6 @@
 package com.java.cafenow.menu.controller;
 
-import com.java.cafenow.menu.dto.FindAllMenuResDto;
-import com.java.cafenow.menu.dto.FindMenuByIdxResDto;
-import com.java.cafenow.menu.dto.SaveMenuReqDto;
+import com.java.cafenow.menu.dto.*;
 import com.java.cafenow.menu.service.MenuService;
 import com.java.cafenow.util.response.domain.CommonResult;
 import com.java.cafenow.util.response.domain.ListResult;
@@ -13,6 +11,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,4 +51,27 @@ public class MenuController {
         FindMenuByIdxResDto menu = menuService.findMenu(menuIdx);
         return responseService.getSingleResult(menu);
     }
+
+    @ApiOperation(value = "메뉴 품절", notes = "메뉴를 품절 시킬 수 있다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @ResponseBody
+    @PostMapping("/cafe/menu/sold-out/{menuIdx}")
+    public CommonResult soldOutMenu(@PathVariable Long menuIdx, @RequestBody ChangeSoldOutReqDto isSoldOut) throws Exception {
+        menuService.soldOutMenu(menuIdx, isSoldOut.getIsSoldOut());
+        return responseService.getSuccessResult();
+    }
+
+    @ApiOperation(value = "메뉴 숨김", notes = "메뉴를 숨길 수 있다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
+    })
+    @ResponseBody
+    @PostMapping("/cafe/menu/hidden/{menuIdx}")
+    public CommonResult HiddenMenu(@PathVariable Long menuIdx, @RequestBody ChangeHiddenReqDto isHidden) throws Exception {
+        menuService.hiddenMenu(menuIdx, isHidden.getIsHidden());
+        return responseService.getSuccessResult();
+    }
+
 }

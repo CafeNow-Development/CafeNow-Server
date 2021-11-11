@@ -7,12 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FindAllMenuResDto {
+public class ChangeHiddenReqDto {
 
-    private String menuName;
-    private int menuPrice;
-    private String menuDesc;
-    private Boolean isSoldOut;
     private Boolean isHidden;
 
 }

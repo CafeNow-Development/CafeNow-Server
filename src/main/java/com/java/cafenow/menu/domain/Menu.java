@@ -34,6 +34,12 @@ public class Menu {
     @Column(length = 10000)
     private String menuImagePath;
 
+    @Column
+    private Boolean isSoldOut;
+
+    @Column
+    private Boolean isHidden;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "storeIdx")
     private Store store;
@@ -53,5 +59,13 @@ public class Menu {
         if(menuItem.getMenu() != this)
             // 파일 저장
             menuItem.setMenu(this);
+    }
+
+    public void soldOut(Boolean isSoldOut) {
+        this.isSoldOut = isSoldOut;
+    }
+
+    public void hidden(Boolean isHidden) {
+        this.isHidden = isHidden;
     }
 }

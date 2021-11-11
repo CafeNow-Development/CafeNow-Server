@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -48,6 +47,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public FindMenuByIdxResDto findMenu(Long menuIdx) {
+
         FindMenuByIdxResDto findMenuByIdxResDto = new FindMenuByIdxResDto();
 
         Menu menu = menuJpaRepository.findById(menuIdx).orElseThrow(null);
@@ -56,20 +56,6 @@ public class MenuServiceImpl implements MenuService {
         List<FindMenuItemResDto> findMenuItemResDtoList = menuItems.stream()
                 .map(m -> mapper.map(m, FindMenuItemResDto.class))
                 .collect(Collectors.toList());
-
-//        for (MenuItem menuItem : menuItems) {
-//            List<FindItemOptionResDto> findItemOptionResDtoList = itemOptionJpaRepository.findAllByMenuItem(menuItem).stream().map(m -> mapper.map(m, FindItemOptionResDto.class)).collect(Collectors.toList());
-//            for (FindMenuItemResDto findMenuItemResDto : findMenuItemResDtoList) {
-//                for (FindItemOptionResDto findItemOptionResDto : findItemOptionResDtoList) {
-//                    if(findItemOptionResDto.getMenuItem().getMenuItemTitle().equals(findMenuItemResDto.getMenuItemTitle())) {
-//                        findMenuItemResDto.getFindItemOptionResDtoList().add(findItemOptionResDto);
-//                    } else {
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-
 
         // 해당 아이템들에서 해당 옵션을 불러온다.
         menuItems.stream().forEach(menuItem -> {
@@ -97,7 +83,24 @@ public class MenuServiceImpl implements MenuService {
 
         return findAllMenuResDtoList;
     }
-    // 전체 조회
 
+    @Transactional
+    @Override
+    public void soldOutMenu(Long menuIdx, Boolean isSoldOut) {
+        Menu findMenuByIdx = menuJpaRepository.findById(menuIdx).orElseThrow(null);
+        if(findMenuByIdx.getIsSoldOut().equals(isSoldOut)) {
+            return;
+        }
+        findMenuByIdx.soldOut(isSoldOut);
+    }
 
+    @Transactional
+    @Override
+    public void hiddenMenu(Long menuIdx, Boolean isHidden) {
+        Menu findMenuByIdx = menuJpaRepository.findById(menuIdx).orElseThrow(null);
+        if(findMenuByIdx.getIsHidden().equals(isHidden)) {
+            return;
+        }
+        findMenuByIdx.hidden(isHidden);
+    }
 }

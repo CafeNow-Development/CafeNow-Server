@@ -19,6 +19,8 @@ public class FindMenuByIdxResDto {
     private String menuName;
     private int menuPrice;
     private String menuDesc;
+    private Boolean isSoldOut;
+    private Boolean isHidden;
 
     @Builder.Default
     private List<FindMenuItemResDto> findMenuItemResDtoList = new ArrayList<>();
@@ -28,5 +30,7 @@ public class FindMenuByIdxResDto {
         this.menuPrice = menu.getMenuPrice();
         this.menuName = menu.getMenuName();
         this.menuDesc = menu.getMenuDesc();
+        this.isSoldOut = menu.getIsSoldOut();
+        this.isHidden = menu.getIsHidden();
     }
 }

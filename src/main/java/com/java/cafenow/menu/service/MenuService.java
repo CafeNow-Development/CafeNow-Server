@@ -13,4 +13,10 @@ public interface MenuService {
     FindMenuByIdxResDto findMenu(Long menuIdx);
 
     List<FindAllMenuResDto> findAllMenu(Long storeIdx);
+
+    // 메뉴 품절
+    void soldOutMenu(Long menuIdx, Boolean isSoldOut);
+
+    // 메뉴 숨김
+    void hiddenMenu(Long menuIdx, Boolean isHidden);
 }

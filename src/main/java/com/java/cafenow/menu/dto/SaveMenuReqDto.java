@@ -24,6 +24,8 @@ public class SaveMenuReqDto {
                 .menuName(this.menuName)
                 .menuDesc(this.menuDesc)
                 .menuPrice(this.menuPrice)
+                .isSoldOut(false)
+                .isHidden(false)
                 .store(store)
                 .build();
     }
