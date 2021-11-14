@@ -19,4 +19,10 @@ public interface MenuService {
 
     // 메뉴 숨김
     void hiddenMenu(Long menuIdx, Boolean isHidden);
+
+    // 메뉴 이름 수정
+    void updateMenuName(Long menuIdx, String menuName);
+
+    // 메뉴 가격 수정
+    void updateMenuPrice(Long menuIdx, int menuPrice);
 }

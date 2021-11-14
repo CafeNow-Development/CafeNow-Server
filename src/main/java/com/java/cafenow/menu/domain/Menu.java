@@ -68,4 +68,12 @@ public class Menu {
     public void hidden(Boolean isHidden) {
         this.isHidden = isHidden;
     }
+
+    public void updateMenuName(String menuName) {
+        this.menuName = menuName;
+    }
+
+    public void updateMenuPrice(int menuPrice) {
+        this.menuPrice = menuPrice;
+    }
 }
