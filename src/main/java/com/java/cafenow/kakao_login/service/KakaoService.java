@@ -5,12 +5,14 @@ import com.java.cafenow.advice.exception.CAdminNotFoundException;
 import com.java.cafenow.advice.exception.CCommunicationException;
 import com.java.cafenow.kakao_login.domain.Admin;
 import com.java.cafenow.kakao_login.dto.KakaoProfile;
+import com.java.cafenow.kakao_login.dto.KakaoToken;
 import com.java.cafenow.kakao_login.dto.LoginResDto;
 import com.java.cafenow.kakao_login.dto.RetKakaoAuth;
 import com.java.cafenow.kakao_login.repository.AdminJpaRepository;
 import com.java.cafenow.security.jwt.JwtTokenProvider;
 import com.java.cafenow.util.response.service.ResponseService;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.*;
@@ -36,10 +38,14 @@ public class KakaoService {
     @Value("${spring.social.kakao.redirect}")
     private String kakaoRedirect;
 
+    @Value("${spring.social.kakao.client_secret}")
+    private String clientSecret;
+
+    @Value("${spring.social.kakao.grant_type}")
+    private String grantType;
+
     public KakaoProfile getKakaoProfile(String accessToken) {
-        // Set header : Content-type: application/x-www-form-urlencoded
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        HttpHeaders headers = getHttpHeaders();
         headers.set("Authorization", "Bearer " + accessToken);
 
         // Set http entity
@@ -60,13 +66,14 @@ public class KakaoService {
 
     public RetKakaoAuth getKakaoTokenInfo(String code) {
         // Set header : Content-type: application/x-www-form-urlencoded
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        HttpHeaders headers = getHttpHeaders();
+
         // Set parameter
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("grant_type", "authorization_code");
+        params.add("grant_type", grantType);
         params.add("client_id", kakaoClientId);
         params.add("redirect_uri", baseUrl + kakaoRedirect);
+        params.add("client_secret", clientSecret);
         params.add("code", code);
         // Set http entity
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
@@ -75,5 +82,12 @@ public class KakaoService {
             return gson.fromJson(response.getBody(), RetKakaoAuth.class);
         }
         return null;
+    }
+
+    @NotNull
+    private HttpHeaders getHttpHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        return headers;
     }
 }
