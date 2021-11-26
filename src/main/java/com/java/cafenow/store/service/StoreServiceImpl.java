@@ -18,8 +18,10 @@ import com.java.cafenow.util.photo.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -31,6 +33,9 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @Slf4j
 public class StoreServiceImpl implements StoreService {
+
+    @Value("${develop.token}")
+    private String ENV_developToken;
 
     private final StoreJpaRepository storeJpaRepository;
     private final PhotoJpaRepository photoJpaRepository;
@@ -64,14 +69,16 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<DevelopFindAllStoreResDto> DevelopFindAllStore() {
+    public List<DevelopFindAllStoreResDto> DevelopFindAllStore(String developToken) throws Exception {
+        checkDeveloper(developToken);
         return storeJpaRepository.findAllByIsApplicationApproval(false)
                 .stream().map(m -> mapper.map(m, DevelopFindAllStoreResDto.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public DevelopFindStoreByIdxResDto DevelopFindSingleStore(Long storeIdx) {
+    public DevelopFindStoreByIdxResDto DevelopFindSingleStore(Long storeIdx, String developToken) throws Exception {
+        checkDeveloper(developToken);
         DevelopFindStoreByIdxResDto findStoreByIdxResDto = storeJpaRepository.findById(storeIdx)
                 .map(m -> mapper.map(m, DevelopFindStoreByIdxResDto.class))
                 .orElseThrow(CStoreNotFoundException::new);
@@ -84,9 +91,16 @@ public class StoreServiceImpl implements StoreService {
         return findStoreByIdxResDto;
     }
 
+    private void checkDeveloper(String developToken) throws Exception {
+        if (!developToken.equals(ENV_developToken)) {
+            throw new Exception("개발자가 아닙니다.");
+        }
+    }
+
     @Transactional
     @Override
-    public void updateApprovalStore(Long storeIdx) {
+    public void updateApprovalStore(Long storeIdx, String developToken) throws Exception {
+        checkDeveloper(developToken);
         Store findStoreByIdx = storeJpaRepository.findById(storeIdx).orElseThrow(CStoreNotFoundException::new);
         findStoreByIdx.updateIsApplicationApproval();
     }

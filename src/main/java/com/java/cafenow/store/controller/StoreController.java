@@ -47,35 +47,26 @@ public class StoreController {
     }
 
     @ApiOperation(value = "Develop 매장 등록 전체 신청 조회 (IsApplicationApproval == false)", notes = "개발자가 매장 등록 신청을 전체 조회한다.(IsApplicationApproval == False 인것만 조회)")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
     @ResponseBody
     @GetMapping("/develop/store")
-    public ListResult<DevelopFindAllStoreResDto> findAllStore() {
-        List<DevelopFindAllStoreResDto> findAllStoreResDtoList = storeService.DevelopFindAllStore();
+    public ListResult<DevelopFindAllStoreResDto> findAllStore(@RequestParam String developToken) throws Exception {
+        List<DevelopFindAllStoreResDto> findAllStoreResDtoList = storeService.DevelopFindAllStore(developToken);
         return responseService.getListResult(findAllStoreResDtoList);
     }
 
     @ApiOperation(value = "Develop 매장 등록 단일 신청 조회", notes = "개발자가 매장 등록 신청을 단일 조회한다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
     @ResponseBody
     @GetMapping("/develop/store/{storeidx}")
-    public SingleResult<DevelopFindStoreByIdxResDto> findStoreByIdx(@PathVariable Long storeidx) {
-        DevelopFindStoreByIdxResDto findSingleStore = storeService.DevelopFindSingleStore(storeidx);
+    public SingleResult<DevelopFindStoreByIdxResDto> findStoreByIdx(@PathVariable Long storeidx, @RequestParam String developToken) throws Exception {
+        DevelopFindStoreByIdxResDto findSingleStore = storeService.DevelopFindSingleStore(storeidx, developToken);
         return responseService.getSingleResult(findSingleStore);
     }
 
     @ApiOperation(value = "Develop 매장 등록 승인", notes = "개발자가 매장 등록을 승인한다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
-    })
     @ResponseBody
     @PutMapping("/develop/approval-store/{storeidx}")
-    public CommonResult ApprovalStore(@PathVariable Long storeidx) {
-        storeService.updateApprovalStore(storeidx);
+    public CommonResult ApprovalStore(@PathVariable Long storeidx, @RequestParam String developToken) throws Exception {
+        storeService.updateApprovalStore(storeidx, developToken);
         return responseService.getSuccessResult();
     }
 
